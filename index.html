@@ -10,148 +10,193 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --font: 'Plus Jakarta Sans', sans-serif;
-  --radius: 22px; --radius-md: 16px; --radius-sm: 12px;
-  --bg-from: #fff0f6; --bg-to: #f0f4ff;
-  --card: rgba(255,255,255,0.88);
-  --border: rgba(15,23,42,0.07);
-  --text: #1a1a2e; --muted: #64748b;
-  --shadow: 0 16px 40px rgba(15,23,42,0.10);
-  --shadow-sm: 0 6px 20px rgba(15,23,42,0.07);
-  --current-h: #ff6b9d; --current-s: #ffe0ee; --current-t: #c2185b;
+  --font:'Plus Jakarta Sans',sans-serif;
+  --radius:22px; --radius-md:16px; --radius-sm:12px;
+  --card:rgba(255,255,255,0.88);
+  --border:rgba(15,23,42,0.07);
+  --text:#1a1a2e; --muted:#64748b;
+  --shadow:0 16px 40px rgba(15,23,42,0.10);
+  --shadow-sm:0 6px 20px rgba(15,23,42,0.07);
+  --current-h:#ff6b9d; --current-s:#ffe0ee; --current-t:#c2185b;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{
-  font-family:var(--font);color:var(--text);min-height:100vh;
-  background: radial-gradient(circle at 10% 10%, rgba(255,107,157,0.18) 0%, transparent 35%),
-              radial-gradient(circle at 90% 5%,  rgba(167,139,250,0.18) 0%, transparent 30%),
-              radial-gradient(circle at 50% 95%, rgba(52,211,153,0.15) 0%, transparent 30%),
-              linear-gradient(135deg, var(--bg-from) 0%, var(--bg-to) 100%);
-  padding: 24px;
-}
+body{font-family:var(--font);color:var(--text);min-height:100vh;
+  background:radial-gradient(circle at 10% 10%,rgba(255,107,157,0.18) 0%,transparent 35%),
+             radial-gradient(circle at 90% 5%,rgba(167,139,250,0.18) 0%,transparent 30%),
+             radial-gradient(circle at 50% 95%,rgba(52,211,153,0.15) 0%,transparent 30%),
+             linear-gradient(135deg,#fff0f6 0%,#f0f4ff 100%);
+  padding:20px;}
 button,input,select,textarea{font-family:var(--font);}
 button{border:none;cursor:pointer;}
 
-.persona-selector{max-width:1200px;margin:0 auto 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
-.persona-label{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;}
+/* PERSONA SELECTOR */
+.top-bar{max-width:1300px;margin:0 auto 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .persona-tabs{display:flex;gap:8px;flex-wrap:wrap;}
-.persona-tab{display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-size:13px;font-weight:700;border:2px solid transparent;background:rgba(255,255,255,0.7);color:var(--muted);transition:all .2s;cursor:pointer;box-shadow:var(--shadow-sm);}
-.persona-tab .tab-avatar{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;}
+.persona-tab{display:flex;align-items:center;gap:8px;padding:9px 16px;border-radius:999px;font-size:13px;font-weight:700;border:2px solid transparent;background:rgba(255,255,255,0.7);color:var(--muted);transition:all .2s;cursor:pointer;box-shadow:var(--shadow-sm);}
+.persona-tab .av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;}
 .persona-tab:hover{transform:translateY(-1px);box-shadow:var(--shadow);}
-.persona-tab[data-p="0"] .tab-avatar{background:#ff6b9d;}
-.persona-tab[data-p="1"] .tab-avatar{background:#a78bfa;}
-.persona-tab[data-p="2"] .tab-avatar{background:#34d399;}
-.persona-tab[data-p="3"] .tab-avatar{background:#fb923c;}
+.persona-tab[data-p="0"] .av{background:#ff6b9d;}
+.persona-tab[data-p="1"] .av{background:#a78bfa;}
+.persona-tab[data-p="2"] .av{background:#34d399;}
+.persona-tab[data-p="3"] .av{background:#fb923c;}
 .persona-tab[data-p="0"].active{color:#c2185b;border-color:#ff6b9d;background:#fff;}
 .persona-tab[data-p="1"].active{color:#6d28d9;border-color:#a78bfa;background:#fff;}
 .persona-tab[data-p="2"].active{color:#047857;border-color:#34d399;background:#fff;}
 .persona-tab[data-p="3"].active{color:#c2410c;border-color:#fb923c;background:#fff;}
+.role-badge{font-size:11px;color:var(--muted);background:rgba(255,255,255,0.8);padding:4px 12px;border-radius:999px;border:1px solid var(--border);}
 
-.app{max-width:1200px;margin:0 auto;}
+/* VIEW TOGGLE */
+.view-toggle{display:flex;gap:4px;background:rgba(255,255,255,0.7);padding:4px;border-radius:10px;border:1px solid var(--border);}
+.view-btn{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;color:var(--muted);background:transparent;transition:all .15s;}
+.view-btn.active{background:#fff;color:var(--text);box-shadow:var(--shadow-sm);}
 
-.hero{background:var(--card);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.8);box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:28px 32px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;}
-.hero-left{display:flex;align-items:center;gap:16px;}
-.hero-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;background:var(--current-h);box-shadow:0 8px 24px rgba(0,0,0,.15);transition:background .3s;flex-shrink:0;}
-.hero-name{font-size:24px;font-weight:800;letter-spacing:-.03em;line-height:1;}
-.hero-sub{font-size:13px;color:var(--muted);margin-top:4px;}
-.hero-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+/* APP */
+.app{max-width:1300px;margin:0 auto;}
 
-.stat-pill{background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:999px;padding:10px 18px;text-align:center;box-shadow:var(--shadow-sm);}
-.stat-pill-n{font-size:20px;font-weight:800;color:var(--current-h);transition:color .3s;}
-.stat-pill-l{font-size:11px;color:var(--muted);font-weight:600;}
-
-.conn-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:999px;padding:10px 16px;font-size:12px;font-weight:700;color:var(--muted);box-shadow:var(--shadow-sm);}
-.conn-dot{width:9px;height:9px;border-radius:50%;background:#facc15;transition:background .3s;}
-.conn-dot.online{background:#22c55e;box-shadow:0 0 0 5px rgba(34,197,94,.15);}
+/* HERO */
+.hero{background:var(--card);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.8);box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:22px 28px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.hero-left{display:flex;align-items:center;gap:14px;}
+.hero-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#fff;background:var(--current-h);box-shadow:0 8px 24px rgba(0,0,0,.15);transition:background .3s;flex-shrink:0;}
+.hero-name{font-size:22px;font-weight:800;letter-spacing:-.03em;line-height:1;}
+.hero-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+.hero-right{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.stat-pill{background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:999px;padding:8px 16px;text-align:center;box-shadow:var(--shadow-sm);}
+.stat-pill-n{font-size:18px;font-weight:800;color:var(--current-h);transition:color .3s;}
+.stat-pill-l{font-size:10px;color:var(--muted);font-weight:600;}
+.conn-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.7);border:1px solid var(--border);border-radius:999px;padding:8px 14px;font-size:11px;font-weight:700;color:var(--muted);box-shadow:var(--shadow-sm);}
+.conn-dot{width:8px;height:8px;border-radius:50%;background:#facc15;transition:background .3s;}
+.conn-dot.online{background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.15);}
 .conn-dot.error{background:#ef4444;}
 
-.dashboard{display:grid;grid-template-columns:minmax(0,1.65fr) 300px;gap:22px;align-items:start;}
+/* DASHBOARD */
+.dashboard{display:grid;grid-template-columns:minmax(0,1.7fr) 290px;gap:20px;align-items:start;}
 
-.card{background:var(--card);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.75);box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:22px;}
-.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;}
-.card-head h2{font-size:16px;font-weight:800;letter-spacing:-.03em;}
-.count-badge{background:var(--current-s);color:var(--current-t);border-radius:999px;padding:5px 13px;font-size:12px;font-weight:800;transition:background .3s,color .3s;}
+/* CARD */
+.card{background:var(--card);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.75);box-shadow:var(--shadow);backdrop-filter:blur(18px);padding:20px;}
+.card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:10px;}
+.card-head h2{font-size:15px;font-weight:800;letter-spacing:-.03em;}
+.count-badge{background:var(--current-s);color:var(--current-t);border-radius:999px;padding:4px 12px;font-size:11px;font-weight:800;transition:background .3s,color .3s;}
 
-.add-form{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.add-form input,.add-form select{padding:12px 15px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:#fff;color:var(--text);outline:none;font-size:13.5px;transition:border .2s,box-shadow .2s;}
-.add-form input:focus,.add-form select:focus{border-color:var(--current-h);box-shadow:0 0 0 4px rgba(255,107,157,.12);}
-.add-form input.grow{flex:1;min-width:180px;}
-.add-form select{min-width:130px;}
-.add-btn{padding:12px 20px;border-radius:var(--radius-sm);background:var(--current-h);color:#fff;font-size:13.5px;font-weight:800;box-shadow:0 8px 20px rgba(0,0,0,.12);transition:all .2s;white-space:nowrap;flex-shrink:0;}
-.add-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.16);}
+/* FORM */
+.add-form{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.add-form input,.add-form select{padding:10px 13px;border-radius:var(--radius-sm);border:1.5px solid var(--border);background:#fff;color:var(--text);outline:none;font-size:13px;transition:border .2s,box-shadow .2s;width:100%;}
+.add-form input:focus,.add-form select:focus{border-color:var(--current-h);box-shadow:0 0 0 3px rgba(255,107,157,.1);}
+.add-form .full{grid-column:1/-1;}
+.add-btn{grid-column:1/-1;padding:11px;border-radius:var(--radius-sm);background:var(--current-h);color:#fff;font-size:13px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.12);transition:all .2s;}
+.add-btn:hover{transform:translateY(-1px);filter:brightness(1.05);}
 
-.filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
-.filter-btn{padding:7px 14px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,255,255,0.6);color:var(--muted);border:1.5px solid transparent;transition:all .15s;}
+/* FILTERS */
+.filters{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap;}
+.filter-btn{padding:6px 12px;border-radius:999px;font-size:11px;font-weight:700;background:rgba(255,255,255,0.6);color:var(--muted);border:1.5px solid transparent;transition:all .15s;}
 .filter-btn:hover{background:#fff;}
 .filter-btn.active{background:var(--current-s);color:var(--current-t);border-color:var(--current-h);}
 
-.task-list{display:flex;flex-direction:column;gap:10px;}
-.task-item{background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);padding:14px 16px;transition:all .2s;border-left:4px solid transparent;}
+/* TASK */
+.task-list{display:flex;flex-direction:column;gap:8px;}
+.task-item{background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);padding:13px 15px;transition:all .2s;border-left:4px solid transparent;}
 .task-item:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px);}
 .task-item.pri-Alta{border-left-color:#ef4444;}
 .task-item.pri-Media{border-left-color:#facc15;}
 .task-item.pri-Baja{border-left-color:#22c55e;}
 .task-item.done-yes{opacity:.55;}
-
-.task-row{display:flex;align-items:flex-start;gap:11px;}
-.task-check{width:20px;height:20px;border-radius:6px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:transparent;}
+.task-row{display:flex;align-items:flex-start;gap:10px;}
+.task-check{width:19px;height:19px;border-radius:5px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:transparent;}
 .task-check.checked{background:#22c55e;border-color:#22c55e;}
-.task-check.checked::after{content:'✓';color:#fff;font-size:11px;font-weight:800;}
-
+.task-check.checked::after{content:'✓';color:#fff;font-size:10px;font-weight:800;}
 .task-info{flex:1;min-width:0;}
-.task-name{font-size:14px;font-weight:700;}
+.task-name{font-size:13.5px;font-weight:700;}
 .done-yes .task-name{text-decoration:line-through;color:var(--muted);}
-.task-meta{display:flex;gap:7px;margin-top:5px;flex-wrap:wrap;align-items:center;}
-.badge{padding:3px 10px;border-radius:999px;font-size:11px;font-weight:700;}
+.task-meta{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center;}
+.badge{padding:2px 9px;border-radius:999px;font-size:10px;font-weight:700;}
 .b-Alta{background:#fee2e2;color:#dc2626;}
 .b-Media{background:#fef9c3;color:#b45309;}
 .b-Baja{background:#dcfce7;color:#16a34a;}
 .b-done{background:#dcfce7;color:#16a34a;}
 .b-pend{background:#f1f5f9;color:#64748b;}
-.task-date{font-size:11px;color:var(--muted);}
+.b-overdue{background:#fee2e2;color:#dc2626;}
+.b-soon{background:#fef9c3;color:#b45309;}
+.b-ok{background:#f1f5f9;color:#64748b;}
 
-.task-btns{display:flex;gap:4px;margin-left:auto;flex-shrink:0;}
-.icon-btn{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:transparent;color:#94a3b8;transition:all .15s;font-size:14px;}
+/* MARCA BADGES */
+.b-marca{padding:2px 9px;border-radius:999px;font-size:10px;font-weight:700;}
+.m-kansas-bistro{background:#fce7f3;color:#9d174d;}
+.m-burger-54{background:#ffedd5;color:#c2410c;}
+.m-salsas-kansas{background:#fef9c3;color:#854d0e;}
+.m-kyros{background:#ede9fe;color:#6d28d9;}
+.m-kansas-bakery{background:#dcfce7;color:#166534;}
+
+.task-date-info{font-size:10px;color:var(--muted);}
+.task-btns{display:flex;gap:3px;margin-left:auto;flex-shrink:0;}
+.icon-btn{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;background:transparent;color:#94a3b8;transition:all .15s;font-size:13px;}
 .icon-btn:hover{background:#f1f5f9;color:var(--text);}
 
-.comments-panel{margin-top:12px;padding-top:12px;border-top:1.5px dashed #e2e8f0;display:none;}
+/* COMMENTS */
+.comments-panel{margin-top:11px;padding-top:11px;border-top:1.5px dashed #e2e8f0;display:none;}
 .comments-panel.open{display:block;}
-.comment-item{background:#f8fafc;border-radius:10px;padding:9px 12px;margin-bottom:7px;border-left:3px solid var(--current-h);transition:border-color .3s;}
-.c-meta{display:flex;justify-content:space-between;margin-bottom:3px;}
-.c-author{font-size:12px;font-weight:700;color:var(--current-h);transition:color .3s;}
-.c-date{font-size:11px;color:var(--muted);}
-.c-text{font-size:13px;color:var(--text);line-height:1.5;}
-.comment-form{display:flex;gap:8px;margin-top:10px;}
-.comment-form input{flex:1;padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);font-size:13px;color:var(--text);outline:none;transition:border .2s;background:#fff;}
+.comment-item{background:#f8fafc;border-radius:9px;padding:8px 11px;margin-bottom:6px;border-left:3px solid var(--current-h);}
+.c-meta{display:flex;justify-content:space-between;margin-bottom:2px;}
+.c-author{font-size:11px;font-weight:700;color:var(--current-h);}
+.c-date{font-size:10px;color:var(--muted);}
+.c-text{font-size:12px;color:var(--text);line-height:1.5;}
+.comment-form{display:flex;gap:7px;margin-top:9px;}
+.comment-form input{flex:1;padding:8px 11px;border-radius:9px;border:1.5px solid var(--border);font-size:12px;color:var(--text);outline:none;transition:border .2s;background:#fff;}
 .comment-form input:focus{border-color:var(--current-h);}
-.comment-btn-send{padding:9px 14px;border-radius:10px;background:var(--current-s);color:var(--current-t);font-size:13px;font-weight:700;transition:all .15s;flex-shrink:0;}
+.comment-btn-send{padding:8px 13px;border-radius:9px;background:var(--current-s);color:var(--current-t);font-size:12px;font-weight:700;transition:all .15s;flex-shrink:0;}
 .comment-btn-send:hover{filter:brightness(.95);}
 
-.milestone-item{display:flex;align-items:center;gap:10px;padding:11px 14px;background:#fff;border-radius:var(--radius-sm);border:1.5px solid var(--border);margin-bottom:8px;}
-.ms-dot{width:10px;height:10px;border-radius:50%;background:var(--current-h);flex-shrink:0;transition:background .3s;}
-.ms-text{font-size:13px;font-weight:600;flex:1;}
-.ms-date{font-size:11px;color:var(--muted);}
+/* MILESTONES */
+.milestone-item{display:flex;align-items:center;gap:9px;padding:10px 13px;background:#fff;border-radius:var(--radius-sm);border:1.5px solid var(--border);margin-bottom:7px;}
+.ms-dot{width:9px;height:9px;border-radius:50%;background:var(--current-h);flex-shrink:0;transition:background .3s;}
+.ms-text{font-size:12px;font-weight:600;flex:1;}
+.ms-date{font-size:10px;color:var(--muted);}
 
-.actions-bar{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;}
-.action-btn{display:flex;align-items:center;gap:7px;padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:all .2s;background:rgba(255,255,255,0.8);color:var(--muted);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);}
+/* CALENDAR */
+.cal-wrap{display:none;}
+.cal-wrap.show{display:block;}
+.list-wrap{display:block;}
+.list-wrap.hide{display:none;}
+
+.calendar{background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);overflow:hidden;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--current-h);color:#fff;}
+.cal-header h3{font-size:15px;font-weight:800;}
+.cal-nav{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:#fff;transition:background .15s;}
+.cal-nav:hover{background:rgba(255,255,255,.35);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);}
+.cal-day-name{text-align:center;padding:8px 4px;font-size:10px;font-weight:700;color:var(--muted);background:#f8fafc;}
+.cal-day{min-height:70px;padding:6px;border:0.5px solid #f1f5f9;position:relative;background:#fff;cursor:pointer;transition:background .15s;}
+.cal-day:hover{background:#fafafa;}
+.cal-day.other-month{background:#fafafa;}
+.cal-day.other-month .cal-day-num{color:#d1d5db;}
+.cal-day.today{background:var(--current-s);}
+.cal-day-num{font-size:11px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.cal-day.today .cal-day-num{color:var(--current-t);}
+.cal-task-dot{font-size:9px;padding:1px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;line-height:1.4;}
+.cal-more{font-size:9px;color:var(--muted);font-weight:600;}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:36px 20px;color:var(--muted);font-size:13px;}
+.empty-state .emoji{font-size:32px;margin-bottom:8px;}
+
+/* LOADING */
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:36px;color:var(--muted);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{width:18px;height:18px;border:2px solid #e2e8f0;border-top-color:var(--current-h);border-radius:50%;animation:spin .6s linear infinite;}
+
+/* ACTIONS */
+.actions-bar{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap;}
+.action-btn{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:var(--radius-sm);font-size:12px;font-weight:700;transition:all .2s;background:rgba(255,255,255,0.8);color:var(--muted);border:1.5px solid var(--border);box-shadow:var(--shadow-sm);}
 .action-btn:hover{background:#fff;transform:translateY(-1px);box-shadow:var(--shadow);color:var(--text);}
-.action-btn.primary{background:var(--current-h);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(0,0,0,.12);}
+.action-btn.primary{background:var(--current-h);color:#fff;border-color:transparent;box-shadow:0 6px 18px rgba(0,0,0,.12);}
 .action-btn.primary:hover{filter:brightness(1.05);}
 
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;}
-.empty-state .emoji{font-size:36px;margin-bottom:10px;}
+/* BLOBS */
+.blob{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:-1;opacity:.3;}
+.blob-1{width:300px;height:300px;background:#ff6b9d;top:-60px;left:-60px;}
+.blob-2{width:260px;height:260px;background:#a78bfa;top:0;right:-50px;}
+.blob-3{width:240px;height:240px;background:#34d399;bottom:-50px;left:30%;}
 
-.loading{display:flex;align-items:center;justify-content:center;gap:10px;padding:40px;color:var(--muted);}
-@keyframes spin{to{transform:rotate(360deg);}}
-.spinner{width:20px;height:20px;border:2.5px solid #e2e8f0;border-top-color:var(--current-h);border-radius:50%;animation:spin .6s linear infinite;}
-
-.blob{position:fixed;border-radius:50%;filter:blur(60px);pointer-events:none;z-index:-1;opacity:.35;}
-.blob-1{width:350px;height:350px;background:#ff6b9d;top:-80px;left:-80px;}
-.blob-2{width:300px;height:300px;background:#a78bfa;top:0;right:-60px;}
-.blob-3{width:280px;height:280px;background:#34d399;bottom:-60px;left:30%;}
-
-@media(max-width:900px){.dashboard{grid-template-columns:1fr;}}
-@media(max-width:600px){body{padding:14px;}.hero{padding:18px;}.add-form{flex-direction:column;}.add-form select{min-width:unset;}}
+@media(max-width:1000px){.dashboard{grid-template-columns:1fr;}}
+@media(max-width:600px){body{padding:12px;}.hero{padding:16px;}.add-form{grid-template-columns:1fr;}.top-bar{flex-direction:column;align-items:flex-start;}}
 </style>
 </head>
 <body>
@@ -160,100 +205,131 @@ button{border:none;cursor:pointer;}
 <div class="blob blob-2"></div>
 <div class="blob blob-3"></div>
 
-<div class="persona-selector">
-  <span class="persona-label">¿Quién sos? 🌸</span>
-  <div class="persona-tabs">
-    <button class="persona-tab active" data-p="0" onclick="switchPersona(0)">
-      <div class="tab-avatar">A</div> Angie
-    </button>
-    <button class="persona-tab" data-p="1" onclick="switchPersona(1)">
-      <div class="tab-avatar">F</div> Francia
-    </button>
-    <button class="persona-tab" data-p="2" onclick="switchPersona(2)">
-      <div class="tab-avatar">S</div> Sol
-    </button>
-    <button class="persona-tab" data-p="3" onclick="switchPersona(3)">
-      <div class="tab-avatar">A</div> Abril
-    </button>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+    <div class="persona-tabs">
+      <button class="persona-tab active" data-p="0" onclick="switchPersona(0)"><div class="av">A</div>Angie</button>
+      <button class="persona-tab" data-p="1" onclick="switchPersona(1)"><div class="av">F</div>Francia</button>
+      <button class="persona-tab" data-p="2" onclick="switchPersona(2)"><div class="av">S</div>Sol</button>
+      <button class="persona-tab" data-p="3" onclick="switchPersona(3)"><div class="av">A</div>Abril</button>
+    </div>
+    <span class="role-badge" id="roleBadge">Brand Manager</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <span style="font-size:11px;font-weight:700;color:var(--muted);">Vista:</span>
+    <div class="view-toggle">
+      <button class="view-btn active" onclick="setView('list',this)">📋 Lista</button>
+      <button class="view-btn" onclick="setView('calendar',this)">📅 Calendario</button>
+    </div>
   </div>
 </div>
 
 <div class="app">
+  <!-- HERO -->
   <div class="hero">
     <div class="hero-left">
       <div class="hero-avatar" id="heroAvatar">A</div>
       <div>
         <div class="hero-name" id="heroName">Hola, Angie 🌸</div>
-        <div class="hero-sub">Tus tareas de hoy · Equipo MKT</div>
+        <div class="hero-sub">Equipo MKT · Bistrosa</div>
       </div>
     </div>
     <div class="hero-right">
-      <div class="stat-pill">
-        <div class="stat-pill-n" id="statTotal">0</div>
-        <div class="stat-pill-l">Total</div>
-      </div>
-      <div class="stat-pill">
-        <div class="stat-pill-n" id="statPend">0</div>
-        <div class="stat-pill-l">Pendientes</div>
-      </div>
-      <div class="stat-pill">
-        <div class="stat-pill-n" id="statDone">0</div>
-        <div class="stat-pill-l">Listas ✓</div>
-      </div>
-      <div class="conn-pill">
-        <div class="conn-dot" id="connDot"></div>
-        <span id="connText">Conectando...</span>
-      </div>
+      <div class="stat-pill"><div class="stat-pill-n" id="statTotal">0</div><div class="stat-pill-l">Total</div></div>
+      <div class="stat-pill"><div class="stat-pill-n" id="statPend">0</div><div class="stat-pill-l">Pendientes</div></div>
+      <div class="stat-pill"><div class="stat-pill-n" id="statDone">0</div><div class="stat-pill-l">Listas ✓</div></div>
+      <div class="stat-pill"><div class="stat-pill-n" id="statOverdue" style="color:#ef4444;">0</div><div class="stat-pill-l">Vencidas ⚠️</div></div>
+      <div class="conn-pill"><div class="conn-dot" id="connDot"></div><span id="connText">Conectando...</span></div>
     </div>
   </div>
 
   <div class="dashboard">
-    <div class="card">
-      <div class="card-head">
-        <h2 id="cardTitle">Mis tareas 📋</h2>
-        <span class="count-badge" id="countBadge">0 tareas</span>
+    <!-- MAIN -->
+    <div>
+      <!-- CALENDAR VIEW -->
+      <div class="cal-wrap" id="calWrap">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="calendar">
+            <div class="cal-header">
+              <button class="cal-nav" onclick="prevMonth()">‹</button>
+              <h3 id="calTitle"></h3>
+              <button class="cal-nav" onclick="nextMonth()">›</button>
+            </div>
+            <div class="cal-grid" id="calGrid"></div>
+          </div>
+        </div>
       </div>
-      <div class="add-form">
-        <input class="grow" id="taskInput" placeholder="✏️ Nueva tarea..." onkeydown="if(event.key==='Enter')addTask()" />
-        <select id="taskPriority">
-          <option value="Alta">🔴 Alta</option>
-          <option value="Media" selected>🟡 Media</option>
-          <option value="Baja">🟢 Baja</option>
-        </select>
-        <button class="add-btn" onclick="addTask()">+ Agregar</button>
-      </div>
-      <div class="filters">
-        <button class="filter-btn active" onclick="setFilter('todas',this)">Todas</button>
-        <button class="filter-btn" onclick="setFilter('pendientes',this)">Pendientes</button>
-        <button class="filter-btn" onclick="setFilter('completadas',this)">Completadas</button>
-        <button class="filter-btn" onclick="setFilter('Alta',this)">🔴 Alta</button>
-        <button class="filter-btn" onclick="setFilter('Media',this)">🟡 Media</button>
-        <button class="filter-btn" onclick="setFilter('Baja',this)">🟢 Baja</button>
-      </div>
-      <div class="task-list" id="taskList">
-        <div class="loading"><div class="spinner"></div> Cargando...</div>
-      </div>
-      <div class="actions-bar">
-        <button class="action-btn primary" onclick="downloadPDF()">⬇️ Descargar PDF</button>
+
+      <!-- LIST VIEW -->
+      <div class="list-wrap" id="listWrap">
+        <div class="card">
+          <div class="card-head">
+            <h2 id="cardTitle">Mis tareas 📋</h2>
+            <span class="count-badge" id="countBadge">0 tareas</span>
+          </div>
+
+          <div class="add-form">
+            <input class="full" id="taskInput" placeholder="✏️ Nueva tarea..." onkeydown="if(event.key==='Enter')addTask()" />
+            <select id="taskPriority">
+              <option value="Alta">🔴 Alta prioridad</option>
+              <option value="Media" selected>🟡 Media prioridad</option>
+              <option value="Baja">🟢 Baja prioridad</option>
+            </select>
+            <select id="taskMarca">
+              <option value="">🏷️ Sin marca</option>
+              <option value="kansas-bistro">Kansas Bistro</option>
+              <option value="burger-54">Burger 54</option>
+              <option value="salsas-kansas">Salsas Kansas</option>
+              <option value="kyros">Kyros</option>
+              <option value="kansas-bakery">Kansas Bakery</option>
+            </select>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <label style="font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;">Deadline:</label>
+              <input type="date" id="taskDeadline" style="flex:1;" />
+            </div>
+            <button class="add-btn" onclick="addTask()">+ Agregar tarea</button>
+          </div>
+
+          <div class="filters">
+            <button class="filter-btn active" onclick="setFilter('todas',this)">Todas</button>
+            <button class="filter-btn" onclick="setFilter('pendientes',this)">Pendientes</button>
+            <button class="filter-btn" onclick="setFilter('completadas',this)">Completadas</button>
+            <button class="filter-btn" onclick="setFilter('vencidas',this)">⚠️ Vencidas</button>
+            <button class="filter-btn" onclick="setFilter('Alta',this)">🔴 Alta</button>
+          </div>
+
+          <div class="task-list" id="taskList">
+            <div class="loading"><div class="spinner"></div> Cargando...</div>
+          </div>
+
+          <div class="actions-bar">
+            <button class="action-btn primary" onclick="downloadPDF()">⬇️ Descargar PDF</button>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div>
+    <!-- SIDEBAR -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <!-- HITOS -->
       <div class="card">
         <div class="card-head">
           <h2>Hitos del mes 🌟</h2>
           <span class="count-badge" id="msCount">0</span>
         </div>
-        <div class="add-form" style="flex-direction:column;">
-          <input id="msInput" placeholder="📍 Nuevo hito..." style="width:100%" />
-          <div style="display:flex;gap:8px;">
-            <input type="date" id="msDate" style="flex:1" />
-            <button class="add-btn" style="flex-shrink:0" onclick="addMilestone()">+ Agregar</button>
-          </div>
+        <div class="add-form" style="grid-template-columns:1fr;">
+          <input id="msInput" placeholder="📍 Nuevo hito..." />
+          <input type="date" id="msDate" />
+          <button class="add-btn" onclick="addMilestone()">+ Agregar hito</button>
         </div>
-        <div id="milestoneList">
-          <div class="empty-state"><div class="emoji">📅</div>Sin hitos aún</div>
-        </div>
+        <div id="milestoneList"><div class="empty-state"><div class="emoji">📅</div>Sin hitos aún</div></div>
+      </div>
+
+      <!-- RESUMEN POR MARCA -->
+      <div class="card">
+        <div class="card-head"><h2>Por marca 🏷️</h2></div>
+        <div id="brandSummary"></div>
       </div>
     </div>
   </div>
@@ -278,40 +354,41 @@ const firebaseConfig = {
 const fbApp = initializeApp(firebaseConfig);
 const db = getFirestore(fbApp);
 
-// ── Las 4 chicas del equipo ───────────────────────────────
 const PERSONAS = [
-  { key:'angie',   name:'Angie',   emoji:'🌸', avatar:'A', greet:'Hola, Angie 🌸',   h:'#ff6b9d', s:'#ffe0ee', t:'#c2185b' },
-  { key:'francia', name:'Francia', emoji:'💜', avatar:'F', greet:'Hola, Francia 💜', h:'#a78bfa', s:'#ede9fe', t:'#6d28d9' },
-  { key:'sol',     name:'Sol',     emoji:'🌿', avatar:'S', greet:'Hola, Sol 🌿',     h:'#34d399', s:'#d1fae5', t:'#047857' },
-  { key:'abril',   name:'Abril',   emoji:'🧡', avatar:'A', greet:'Hola, Abril 🧡',   h:'#fb923c', s:'#ffedd5', t:'#c2410c' },
+  { key:'angie',   name:'Angie',   emoji:'🌸', avatar:'A', role:'Brand Manager',         h:'#ff6b9d', s:'#ffe0ee', t:'#c2185b' },
+  { key:'francia', name:'Francia', emoji:'💜', avatar:'F', role:'Brand Manager',         h:'#a78bfa', s:'#ede9fe', t:'#6d28d9' },
+  { key:'sol',     name:'Sol',     emoji:'🌿', avatar:'S', role:'Analista de Marketing', h:'#34d399', s:'#d1fae5', t:'#047857' },
+  { key:'abril',   name:'Abril',   emoji:'🧡', avatar:'A', role:'Analista de Marketing', h:'#fb923c', s:'#ffedd5', t:'#c2410c' },
 ];
 
-let currentP = 0;
-let tasks = [];
-let milestones = [];
-let currentFilter = 'todas';
-let unsubTasks = null;
-let unsubMilestones = null;
+const MARCAS = {
+  'kansas-bistro': { label:'Kansas Bistro', cls:'m-kansas-bistro' },
+  'burger-54':     { label:'Burger 54',     cls:'m-burger-54' },
+  'salsas-kansas': { label:'Salsas Kansas', cls:'m-salsas-kansas' },
+  'kyros':         { label:'Kyros',         cls:'m-kyros' },
+  'kansas-bakery': { label:'Kansas Bakery', cls:'m-kansas-bakery' },
+};
+
+let currentP = 0, tasks = [], milestones = [], currentFilter = 'todas';
+let currentView = 'list';
+let calYear = new Date().getFullYear(), calMonth = new Date().getMonth();
+let unsubTasks = null, unsubMilestones = null;
 
 window.switchPersona = (idx) => {
   currentP = idx;
   const p = PERSONAS[idx];
-
   document.documentElement.style.setProperty('--current-h', p.h);
   document.documentElement.style.setProperty('--current-s', p.s);
   document.documentElement.style.setProperty('--current-t', p.t);
-
   document.getElementById('heroAvatar').textContent = p.avatar;
   document.getElementById('heroAvatar').style.background = p.h;
-  document.getElementById('heroName').textContent = p.greet;
+  document.getElementById('heroName').textContent = `Hola, ${p.name} ${p.emoji}`;
+  document.getElementById('roleBadge').textContent = p.role;
   document.getElementById('cardTitle').textContent = `Mis tareas ${p.emoji}`;
-
   document.querySelectorAll('.persona-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.persona-tab')[idx].classList.add('active');
-
   currentFilter = 'todas';
   document.querySelectorAll('.filter-btn').forEach((b,i) => b.classList.toggle('active', i===0));
-
   if (unsubTasks) unsubTasks();
   if (unsubMilestones) unsubMilestones();
   subscribeToData();
@@ -320,22 +397,18 @@ window.switchPersona = (idx) => {
 function subscribeToData() {
   const p = PERSONAS[currentP];
   document.getElementById('taskList').innerHTML = '<div class="loading"><div class="spinner"></div> Cargando...</div>';
-
   unsubTasks = onSnapshot(
     query(collection(db,'tasks'), where('persona','==',p.key), orderBy('createdAt','desc')),
     snap => {
       tasks = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderTasks(); updateStats(); setConn('online','En línea · Tiempo real');
+      renderTasks(); updateStats(); renderCalendar(); renderBrandSummary();
+      setConn('online','En línea · Tiempo real');
     },
     () => setConn('error','Sin conexión')
   );
-
   unsubMilestones = onSnapshot(
     query(collection(db,'milestones'), where('persona','==',p.key), orderBy('createdAt','asc')),
-    snap => {
-      milestones = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderMilestones();
-    }
+    snap => { milestones = snap.docs.map(d => ({ id: d.id, ...d.data() })); renderMilestones(); }
   );
 }
 
@@ -344,39 +417,53 @@ function setConn(state, text) {
   document.getElementById('connText').textContent = text;
 }
 
-function getFiltered() {
-  switch(currentFilter) {
-    case 'pendientes':  return tasks.filter(t => !t.done);
-    case 'completadas': return tasks.filter(t =>  t.done);
-    case 'Alta':  return tasks.filter(t => t.priority==='Alta');
-    case 'Media': return tasks.filter(t => t.priority==='Media');
-    case 'Baja':  return tasks.filter(t => t.priority==='Baja');
-    default: return tasks;
-  }
+function deadlineState(dl, done) {
+  if (!dl) return null;
+  if (done) return { label:'Lista ✓', cls:'b-done' };
+  const today = new Date(); today.setHours(0,0,0,0);
+  const d = new Date(dl+'T00:00:00'); d.setHours(0,0,0,0);
+  const diff = Math.ceil((d-today)/86400000);
+  if (diff < 0)  return { label:`Vencida hace ${Math.abs(diff)}d ⚠️`, cls:'b-overdue' };
+  if (diff === 0) return { label:'Vence hoy ⚡', cls:'b-soon' };
+  if (diff <= 3)  return { label:`Vence en ${diff}d`, cls:'b-soon' };
+  return { label:`${fmtDate(dl)}`, cls:'b-ok' };
 }
 
-function fmt(ts) {
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s+'T00:00:00');
+  return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});
+}
+
+function fmtTs(ts) {
   if (!ts) return '';
   const d = ts.toDate ? ts.toDate() : new Date(ts);
   return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});
 }
 
-function esc(s) {
-  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function getFiltered() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  switch(currentFilter) {
+    case 'pendientes':  return tasks.filter(t=>!t.done);
+    case 'completadas': return tasks.filter(t=>t.done);
+    case 'vencidas':    return tasks.filter(t=>!t.done && t.deadline && new Date(t.deadline+'T00:00:00')<today);
+    case 'Alta':        return tasks.filter(t=>t.priority==='Alta');
+    default: return tasks;
+  }
 }
 
 function renderTasks() {
   const list = document.getElementById('taskList');
   const filtered = getFiltered();
   document.getElementById('countBadge').textContent = `${filtered.length} tareas`;
-
-  if (!filtered.length) {
-    list.innerHTML = `<div class="empty-state"><div class="emoji">✨</div>No hay tareas acá. ¡Agregá una!</div>`;
-    return;
-  }
+  if (!filtered.length) { list.innerHTML=`<div class="empty-state"><div class="emoji">✨</div>No hay tareas acá. ¡Agregá una!</div>`; return; }
 
   list.innerHTML = filtered.map(t => {
-    const comments = (t.comments||[]).map(c => `
+    const dl = deadlineState(t.deadline, t.done);
+    const marca = t.marca && MARCAS[t.marca];
+    const comments = (t.comments||[]).map(c=>`
       <div class="comment-item">
         <div class="c-meta"><span class="c-author">${esc(c.author)}</span><span class="c-date">${c.date||''}</span></div>
         <div class="c-text">${esc(c.text)}</div>
@@ -390,20 +477,18 @@ function renderTasks() {
           <div class="task-name">${esc(t.name)}</div>
           <div class="task-meta">
             <span class="badge b-${t.priority}">${t.priority}</span>
-            <span class="badge ${t.done?'b-done':'b-pend'}">${t.done?'Lista ✓':'Pendiente'}</span>
-            <span class="task-date">${fmt(t.createdAt)}</span>
-            ${(t.comments||[]).length ? `<span class="task-date">💬 ${t.comments.length}</span>` : ''}
+            ${marca ? `<span class="badge b-marca ${marca.cls}">${marca.label}</span>` : ''}
+            ${dl ? `<span class="badge ${dl.cls}">${dl.label}</span>` : ''}
+            ${(t.comments||[]).length ? `<span class="task-date-info">💬 ${t.comments.length}</span>` : ''}
           </div>
         </div>
         <div class="task-btns">
-          <button class="icon-btn" onclick="toggleComments('${t.id}')" title="Comentarios">💬</button>
-          <button class="icon-btn" onclick="deleteTask('${t.id}')" title="Eliminar">🗑️</button>
+          <button class="icon-btn" onclick="toggleComments('${t.id}')">💬</button>
+          <button class="icon-btn" onclick="deleteTask('${t.id}')">🗑️</button>
         </div>
       </div>
       <div class="comments-panel" id="cp-${t.id}">
-        <div id="cl-${t.id}">
-          ${(t.comments||[]).length ? comments : '<div style="font-size:12px;color:#94a3b8;margin-bottom:8px;">Sin comentarios aún 🌸</div>'}
-        </div>
+        <div id="cl-${t.id}">${(t.comments||[]).length ? comments : '<div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Sin comentarios aún 🌸</div>'}</div>
         <div class="comment-form">
           <input placeholder="Escribí un comentario..." id="ci-${t.id}" onkeydown="if(event.key==='Enter')addComment('${t.id}')" />
           <button class="comment-btn-send" onclick="addComment('${t.id}')">Enviar ✉️</button>
@@ -413,64 +498,136 @@ function renderTasks() {
   }).join('');
 }
 
+function updateStats() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('statTotal').textContent = tasks.length;
+  document.getElementById('statPend').textContent  = tasks.filter(t=>!t.done).length;
+  document.getElementById('statDone').textContent  = tasks.filter(t=>t.done).length;
+  document.getElementById('statOverdue').textContent = tasks.filter(t=>!t.done&&t.deadline&&new Date(t.deadline+'T00:00:00')<today).length;
+}
+
 function renderMilestones() {
   const el = document.getElementById('milestoneList');
   document.getElementById('msCount').textContent = milestones.length;
   if (!milestones.length) { el.innerHTML='<div class="empty-state"><div class="emoji">📅</div>Sin hitos aún</div>'; return; }
-  el.innerHTML = milestones.map(m => `
+  el.innerHTML = milestones.map(m=>`
     <div class="milestone-item">
       <div class="ms-dot"></div>
-      <div style="flex:1">
-        <div class="ms-text">${esc(m.text)}</div>
-        ${m.date?`<div class="ms-date">📍 ${m.date}</div>`:''}
-      </div>
+      <div style="flex:1"><div class="ms-text">${esc(m.text)}</div>${m.date?`<div class="ms-date">📍 ${fmtDate(m.date)}</div>`:''}</div>
       <button class="icon-btn" onclick="deleteMilestone('${m.id}')">✕</button>
     </div>`).join('');
 }
 
-function updateStats() {
-  document.getElementById('statTotal').textContent = tasks.length;
-  document.getElementById('statPend').textContent  = tasks.filter(t=>!t.done).length;
-  document.getElementById('statDone').textContent  = tasks.filter(t=>t.done).length;
+function renderBrandSummary() {
+  const el = document.getElementById('brandSummary');
+  if (!tasks.length) { el.innerHTML='<div style="font-size:12px;color:var(--muted);text-align:center;padding:10px;">Sin tareas aún</div>'; return; }
+  const counts = {};
+  tasks.filter(t=>t.marca).forEach(t=>{ counts[t.marca]=(counts[t.marca]||0)+1; });
+  if (!Object.keys(counts).length) { el.innerHTML='<div style="font-size:12px;color:var(--muted);text-align:center;padding:10px;">Sin marcas asignadas</div>'; return; }
+  el.innerHTML = Object.entries(counts).map(([k,v])=>{
+    const m = MARCAS[k];
+    if (!m) return '';
+    return `<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f1f5f9;">
+      <span class="badge b-marca ${m.cls}">${m.label}</span>
+      <span style="font-size:12px;font-weight:700;color:var(--muted);">${v} tarea${v>1?'s':''}</span>
+    </div>`;
+  }).join('');
 }
 
+// CALENDAR
+const CAL_DAYS = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+const MONTHS = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  const title = document.getElementById('calTitle');
+  if (!grid) return;
+  title.textContent = `${MONTHS[calMonth]} ${calYear}`;
+  const today = new Date();
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+  const daysInPrev = new Date(calYear, calMonth, 0).getDate();
+
+  let html = CAL_DAYS.map(d=>`<div class="cal-day-name">${d}</div>`).join('');
+
+  const tasksByDate = {};
+  tasks.forEach(t => {
+    if (t.deadline) {
+      if (!tasksByDate[t.deadline]) tasksByDate[t.deadline] = [];
+      tasksByDate[t.deadline].push(t);
+    }
+  });
+
+  for (let i=0; i<firstDay; i++) {
+    const d = daysInPrev - firstDay + i + 1;
+    html += `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
+  }
+
+  for (let d=1; d<=daysInMonth; d++) {
+    const dateStr = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===calYear && today.getMonth()===calMonth && today.getDate()===d;
+    const dayTasks = tasksByDate[dateStr] || [];
+    const shown = dayTasks.slice(0,2);
+    const more = dayTasks.length - 2;
+    const p = PERSONAS[currentP];
+
+    html += `<div class="cal-day ${isToday?'today':''}">
+      <div class="cal-day-num">${d}</div>
+      ${shown.map(t=>`<div class="cal-task-dot" style="background:${p.s};color:${p.t};">${esc(t.name)}</div>`).join('')}
+      ${more>0?`<div class="cal-more">+${more} más</div>`:''}
+    </div>`;
+  }
+
+  const remaining = (firstDay + daysInMonth) % 7;
+  if (remaining > 0) {
+    for (let d=1; d<=7-remaining; d++) {
+      html += `<div class="cal-day other-month"><div class="cal-day-num">${d}</div></div>`;
+    }
+  }
+
+  grid.innerHTML = html;
+}
+
+window.prevMonth = () => { calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCalendar(); };
+window.nextMonth = () => { calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCalendar(); };
+
+window.setView = (v, btn) => {
+  currentView = v;
+  document.querySelectorAll('.view-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('calWrap').classList.toggle('show', v==='calendar');
+  document.getElementById('listWrap').classList.toggle('hide', v==='calendar');
+  if (v==='calendar') renderCalendar();
+};
+
+// ACTIONS
 window.addTask = async () => {
   const input = document.getElementById('taskInput');
   const name = input.value.trim();
   if (!name) return;
   await addDoc(collection(db,'tasks'), {
-    persona: PERSONAS[currentP].key,
-    name, priority: document.getElementById('taskPriority').value,
+    persona: PERSONAS[currentP].key, name,
+    priority: document.getElementById('taskPriority').value,
+    marca: document.getElementById('taskMarca').value,
+    deadline: document.getElementById('taskDeadline').value,
     done: false, comments: [], createdAt: serverTimestamp()
   });
   input.value = '';
+  document.getElementById('taskDeadline').value = '';
 };
 
-window.toggleDone = async (id, current) => {
-  await updateDoc(doc(db,'tasks',id), { done: !current });
-};
-
-window.deleteTask = async (id) => {
-  if (!confirm('¿Eliminar esta tarea?')) return;
-  await deleteDoc(doc(db,'tasks',id));
-};
-
-window.toggleComments = (id) => {
-  document.getElementById('cp-'+id).classList.toggle('open');
-};
+window.toggleDone = async (id, current) => { await updateDoc(doc(db,'tasks',id), { done: !current }); };
+window.deleteTask = async (id) => { if(!confirm('¿Eliminar esta tarea?'))return; await deleteDoc(doc(db,'tasks',id)); };
+window.toggleComments = (id) => { document.getElementById('cp-'+id).classList.toggle('open'); };
 
 window.addComment = async (taskId) => {
   const input = document.getElementById('ci-'+taskId);
   const text = input.value.trim();
   if (!text) return;
-  const task = tasks.find(t => t.id === taskId);
+  const task = tasks.find(t=>t.id===taskId);
   if (!task) return;
   const comments = [...(task.comments||[])];
-  comments.push({
-    author: PERSONAS[currentP].name,
-    text,
-    date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
-  });
+  comments.push({ author:PERSONAS[currentP].name, text, date:new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) });
   await updateDoc(doc(db,'tasks',taskId), { comments });
   input.value = '';
 };
@@ -478,22 +635,16 @@ window.addComment = async (taskId) => {
 window.addMilestone = async () => {
   const text = document.getElementById('msInput').value.trim();
   if (!text) return;
-  await addDoc(collection(db,'milestones'), {
-    persona: PERSONAS[currentP].key,
-    text, date: document.getElementById('msDate').value,
-    createdAt: serverTimestamp()
-  });
-  document.getElementById('msInput').value = '';
-  document.getElementById('msDate').value = '';
+  await addDoc(collection(db,'milestones'), { persona:PERSONAS[currentP].key, text, date:document.getElementById('msDate').value, createdAt:serverTimestamp() });
+  document.getElementById('msInput').value='';
+  document.getElementById('msDate').value='';
 };
 
-window.deleteMilestone = async (id) => {
-  await deleteDoc(doc(db,'milestones',id));
-};
+window.deleteMilestone = async (id) => { await deleteDoc(doc(db,'milestones',id)); };
 
 window.setFilter = (f, btn) => {
   currentFilter = f;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderTasks();
 };
@@ -504,9 +655,9 @@ window.downloadPDF = () => {
   const pdf = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
   const hColor = p.h.match(/\w\w/g).map(x=>parseInt(x,16));
   const DARK=[26,26,46], GRAY=[100,116,139];
+  const today = new Date(); today.setHours(0,0,0,0);
 
-  pdf.setFillColor(...hColor);
-  pdf.rect(0,0,210,36,'F');
+  pdf.setFillColor(...hColor); pdf.rect(0,0,210,36,'F');
   pdf.setTextColor(255,255,255);
   pdf.setFontSize(20); pdf.setFont('helvetica','bold');
   pdf.text(`TaskFlow — Reporte de ${p.name} ${p.emoji}`, 14, 16);
@@ -515,19 +666,26 @@ window.downloadPDF = () => {
 
   let y = 46;
   const total=tasks.length, done=tasks.filter(t=>t.done).length;
+  const overdue=tasks.filter(t=>!t.done&&t.deadline&&new Date(t.deadline+'T00:00:00')<today).length;
   pdf.setFontSize(10); pdf.setFont('helvetica','bold'); pdf.setTextColor(...hColor);
   pdf.text('Resumen', 14, y); y+=6;
   pdf.setFont('helvetica','normal'); pdf.setTextColor(...DARK); pdf.setFontSize(9.5);
-  pdf.text(`Total: ${total}   |   Completadas: ${done}   |   Pendientes: ${total-done}`, 14, y); y+=10;
+  pdf.text(`Total: ${total}   |   Completadas: ${done}   |   Pendientes: ${total-done}   |   Vencidas: ${overdue}`, 14, y); y+=10;
 
   pdf.autoTable({
     startY: y,
-    head: [['Tarea','Prioridad','Estado']],
-    body: tasks.map(t=>[t.name, t.priority, t.done?'Completada':'Pendiente']),
-    headStyles:{fillColor:hColor,textColor:[255,255,255],fontStyle:'bold',fontSize:9},
-    bodyStyles:{fontSize:8.5,textColor:DARK},
+    head: [['Tarea','Marca','Prioridad','Deadline','Estado']],
+    body: tasks.map(t=>[
+      t.name,
+      t.marca ? (MARCAS[t.marca]?.label||'') : '—',
+      t.priority,
+      t.deadline ? fmtDate(t.deadline) : '—',
+      t.done ? 'Completada' : (t.deadline && new Date(t.deadline+'T00:00:00')<today ? 'Vencida ⚠️' : 'Pendiente')
+    ]),
+    headStyles:{fillColor:hColor,textColor:[255,255,255],fontStyle:'bold',fontSize:8.5},
+    bodyStyles:{fontSize:8,textColor:DARK},
     alternateRowStyles:{fillColor:[249,250,251]},
-    columnStyles:{0:{cellWidth:110},1:{cellWidth:30,halign:'center'},2:{cellWidth:40,halign:'center'}},
+    columnStyles:{0:{cellWidth:70},1:{cellWidth:30},2:{cellWidth:22,halign:'center'},3:{cellWidth:22,halign:'center'},4:{cellWidth:36,halign:'center'}},
     margin:{left:14,right:14}
   });
 
@@ -539,16 +697,16 @@ window.downloadPDF = () => {
     withC.forEach(t => {
       if(y>265){pdf.addPage();y=20;}
       pdf.setFontSize(10); pdf.setFont('helvetica','bold'); pdf.setTextColor(...hColor);
-      pdf.text(`• ${t.name}`, 14, y); y+=6;
+      pdf.text(`• ${t.name}`, 14, y); y+=5;
       t.comments.forEach(c => {
         if(y>272){pdf.addPage();y=20;}
-        pdf.setFont('helvetica','bold'); pdf.setFontSize(8.5); pdf.setTextColor(...GRAY);
-        pdf.text(`  ${c.author} — ${c.date}`, 16, y); y+=4.5;
+        pdf.setFont('helvetica','bold'); pdf.setFontSize(8); pdf.setTextColor(...GRAY);
+        pdf.text(`  ${c.author} — ${c.date}`, 16, y); y+=4;
         pdf.setFont('helvetica','normal'); pdf.setTextColor(...DARK);
         pdf.splitTextToSize(c.text,170).forEach(l=>{if(y>276){pdf.addPage();y=20;}pdf.text('  '+l,16,y);y+=4;});
         y+=2;
       });
-      y+=4;
+      y+=3;
     });
   }
 
@@ -556,7 +714,7 @@ window.downloadPDF = () => {
   for(let i=1;i<=pages;i++){
     pdf.setPage(i);
     pdf.setFontSize(8); pdf.setTextColor(...GRAY);
-    pdf.text(`Página ${i} de ${pages} — TaskFlow · Equipo MKT`, 105, 292, {align:'center'});
+    pdf.text(`Página ${i} de ${pages} — TaskFlow · Equipo MKT Bistrosa`, 105, 292, {align:'center'});
   }
   pdf.save(`reporte-${p.key}-${new Date().toISOString().slice(0,10)}.pdf`);
 };
