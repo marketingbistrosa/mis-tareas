@@ -188,9 +188,61 @@ button{border:none;cursor:pointer;}
 .m-kron{background:#e0f2fe;color:#0369a1;}
 .m-kansas-bistro{background:#ffedd5;color:#c2410c;}
 .m-burger-54{background:#fee2e2;color:#991b1b;}
+.m-bistro{background:#fef3c7;color:#92400e;}
+.b-delivery{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f0fdf4;color:#065f46;}
 .b-red{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f8fafc;color:#475569;}
 .b-cat{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f0fdf4;color:#166534;}
 .b-asignada{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f5f3ff;color:#6d28d9;}
+/* UNREAD BADGE */
+.unread-badge{display:inline-flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;border-radius:999px;font-size:9px;font-weight:800;min-width:16px;height:16px;padding:0 4px;margin-left:2px;animation:pulse-red .8s ease-in-out infinite alternate;}
+@keyframes pulse-red{from{box-shadow:0 0 0 0 rgba(239,68,68,0.4);}to{box-shadow:0 0 0 5px rgba(239,68,68,0);}}
+/* DESCRIPTION */
+.task-desc{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.5;white-space:pre-wrap;}
+/* SUBTASKS */
+.subtask-list{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+.subtask-item{display:flex;align-items:center;gap:7px;font-size:12px;}
+.subtask-check{width:15px;height:15px;border-radius:4px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:transparent;transition:all .15s;}
+.subtask-check.done{background:#22c55e;border-color:#22c55e;}
+.subtask-check.done::after{content:'✓';color:#fff;font-size:8px;font-weight:800;}
+.subtask-text{flex:1;color:var(--text);}
+.subtask-text.done{text-decoration:line-through;color:var(--muted);}
+.subtask-add{display:flex;gap:5px;margin-top:6px;}
+.subtask-add input{flex:1;padding:5px 9px;border-radius:7px;border:1.5px solid var(--border);font-size:11.5px;color:var(--text);outline:none;background:#fff;}
+[data-dark="1"] .subtask-add input{background:rgba(255,255,255,0.08);}
+.subtask-add input:focus{border-color:var(--current-h);}
+.subtask-add button{padding:5px 10px;border-radius:7px;background:var(--current-s);color:var(--current-t);font-size:11px;font-weight:700;}
+.subtask-progress{height:4px;background:#e2e8f0;border-radius:2px;margin-top:6px;overflow:hidden;}
+.subtask-progress-bar{height:100%;border-radius:2px;background:var(--current-h);transition:width .3s;}
+
+/* PIN MODAL */
+.pin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;z-index:9999;padding:20px;}
+.pin-modal{background:#fff;border-radius:var(--radius);width:100%;max-width:360px;box-shadow:0 30px 80px rgba(0,0,0,.25);padding:32px 28px;text-align:center;}
+[data-dark="1"] .pin-modal{background:#1e1e2e;}
+.pin-avatar{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#fff;margin:0 auto 14px;}
+.pin-title{font-size:18px;font-weight:800;margin-bottom:4px;}
+.pin-sub{font-size:12px;color:var(--muted);margin-bottom:22px;}
+.pin-dots{display:flex;gap:12px;justify-content:center;margin-bottom:22px;}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid #d1d5db;transition:all .15s;}
+.pin-dot.filled{border-color:var(--pin-color);background:var(--pin-color);}
+.pin-numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.pin-key{height:52px;border-radius:var(--radius-sm);background:#f8fafc;border:1.5px solid var(--border);font-size:18px;font-weight:700;color:var(--text);cursor:pointer;transition:all .15s;}
+[data-dark="1"] .pin-key{background:rgba(255,255,255,0.08);}
+.pin-key:hover{background:var(--current-s);border-color:var(--current-h);color:var(--current-t);}
+.pin-key:active{transform:scale(.95);}
+.pin-error{color:#ef4444;font-size:12px;font-weight:600;min-height:18px;margin-bottom:8px;}
+.pin-setup-hint{font-size:11px;color:var(--muted);margin-top:8px;}
+.pin-skip{font-size:11px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-top:10px;display:inline-block;}
+
+/* ASSIGN BADGE */
+.b-assigned-to{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#fdf4ff;color:#7e22ce;}
+.b-assigned-from{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f0f9ff;color:#0369a1;}
+
+/* APPROVE/REJECT BUTTONS */
+.approve-btn{padding:5px 12px;border-radius:8px;background:#d1fae5;color:#065f46;font-size:11px;font-weight:800;border:1.5px solid #6ee7b7;cursor:pointer;transition:all .15s;}
+.approve-btn:hover{background:#a7f3d0;}
+.reject-btn{padding:5px 12px;border-radius:8px;background:#fee2e2;color:#991b1b;font-size:11px;font-weight:800;border:1.5px solid #fca5a5;cursor:pointer;transition:all .15s;}
+.reject-btn:hover{background:#fecaca;}
+.vane-action-bar{display:flex;gap:6px;margin-top:8px;align-items:center;flex-wrap:wrap;}
 .task-link{font-size:10px;color:var(--current-h);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:3px;}
 .task-link:hover{text-decoration:underline;}
 .task-btns{display:flex;gap:3px;margin-left:auto;flex-shrink:0;}
@@ -313,6 +365,55 @@ button{border:none;cursor:pointer;}
 <div class="blob blob-2"></div>
 <div class="blob blob-3"></div>
 
+<!-- PIN MODAL -->
+<div class="pin-overlay" id="pinOverlay" style="display:none;">
+  <div class="pin-modal">
+    <div class="pin-avatar" id="pinAvatar"></div>
+    <div class="pin-title" id="pinTitle">Ingresá tu PIN</div>
+    <div class="pin-sub" id="pinSub">Escribí tu PIN de 4 dígitos</div>
+    <div class="pin-dots" id="pinDots">
+      <div class="pin-dot" id="pd0"></div>
+      <div class="pin-dot" id="pd1"></div>
+      <div class="pin-dot" id="pd2"></div>
+      <div class="pin-dot" id="pd3"></div>
+    </div>
+    <div class="pin-error" id="pinError"></div>
+    <div class="pin-numpad">
+      <button class="pin-key" onclick="pinKey('1')">1</button>
+      <button class="pin-key" onclick="pinKey('2')">2</button>
+      <button class="pin-key" onclick="pinKey('3')">3</button>
+      <button class="pin-key" onclick="pinKey('4')">4</button>
+      <button class="pin-key" onclick="pinKey('5')">5</button>
+      <button class="pin-key" onclick="pinKey('6')">6</button>
+      <button class="pin-key" onclick="pinKey('7')">7</button>
+      <button class="pin-key" onclick="pinKey('8')">8</button>
+      <button class="pin-key" onclick="pinKey('9')">9</button>
+      <button class="pin-key" onclick="pinKey('back')" style="font-size:14px;">⌫</button>
+      <button class="pin-key" onclick="pinKey('0')">0</button>
+      <button class="pin-key" onclick="pinKey('clear')" style="font-size:11px;">Borrar</button>
+    </div>
+    <div id="pinSetupHint" class="pin-setup-hint"></div>
+    <div><span class="pin-skip" id="pinSkipBtn" onclick="pinSkip()">Configurar PIN después</span></div>
+  </div>
+</div>
+
+<!-- ASSIGN MODAL -->
+<div class="overlay" id="assignOverlay">
+  <div class="modal" style="max-width:400px;">
+    <div class="modal-head"><span>👥 Asignar tarea</span><button class="icon-btn" onclick="closeAssign()">✕</button></div>
+    <div class="modal-body">
+      <div id="assignTaskName" style="font-size:13px;font-weight:700;margin-bottom:14px;color:var(--muted);"></div>
+      <div class="fgroup"><label class="flabel">Asignar a</label>
+        <div id="assignPersonaList" style="display:flex;flex-direction:column;gap:8px;"></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeAssign()">Cancelar</button>
+      <button class="btn-save" onclick="saveAssign()">Asignar</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT MODAL -->
 <div class="overlay" id="editOverlay">
   <div class="modal">
@@ -350,17 +451,19 @@ button{border:none;cursor:pointer;}
             <option value="Proveedor">🤝 Proveedor</option>
           </select>
         </div>
-        <div class="fgroup"><label class="flabel">Red Social</label>
+        <div class="fgroup"><label class="flabel">Red / Plataforma</label>
           <select class="finput" id="editRed">
             <option value="">Sin red</option>
             <option value="Instagram">📸 Instagram</option>
             <option value="TikTok">🎵 TikTok</option>
             <option value="LinkedIn">💼 LinkedIn</option>
             <option value="Email">📧 Email</option>
+            <option value="Delivery">🛵 Delivery</option>
           </select>
         </div>
         <div class="fgroup"><label class="flabel">Deadline</label><input type="date" class="finput" id="editDeadline" /></div>
       </div>
+      <div class="fgroup"><label class="flabel">Descripción / Detalle</label><textarea class="finput" id="editDesc" rows="3" placeholder="Descripción, contexto, notas..." style="resize:vertical;"></textarea></div>
       <div class="fgroup"><label class="flabel">Link (Canva, Drive, Instagram...)</label><input class="finput" id="editLink" placeholder="https://..." /></div>
     </div>
     <div class="modal-foot">
@@ -499,6 +602,7 @@ button{border:none;cursor:pointer;}
                   <option value="TikTok">🎵 TikTok</option>
                   <option value="LinkedIn">💼 LinkedIn</option>
                   <option value="Email">📧 Email</option>
+                  <option value="Delivery">🛵 Delivery</option>
                 </select>
                 <input type="date" id="taskDeadline" />
                 <input class="full" id="taskLink" placeholder="🔗 Link (Canva, Drive, Instagram...)" />
@@ -601,6 +705,7 @@ const MARCAS_RETAIL = [
 const MARCAS_REST = [
   { key:'kansas-bistro', label:'Kansas Bistro', cls:'m-kansas-bistro' },
   { key:'burger-54', label:'Burger 54', cls:'m-burger-54' },
+  { key:'bistro', label:'Bistro', cls:'m-bistro' },
 ];
 const ALL_MARCAS = [...MARCAS_RETAIL, ...MARCAS_REST];
 const MARCAS_MAP = Object.fromEntries(ALL_MARCAS.map(m=>[m.key,m]));
@@ -618,6 +723,20 @@ let vanePersonaFilter='';
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
 let unsubTasks=null, unsubMilestones=null, unsubAll=[];
 let editingId=null;
+
+// ── UNREAD COMMENTS TRACKING ─────────────────────────────
+function getReadKey(taskId){ return `read_${taskId}`; }
+function getLastReadCount(taskId){ return parseInt(localStorage.getItem(getReadKey(taskId))||'0'); }
+function markCommentsRead(taskId, count){ localStorage.setItem(getReadKey(taskId), count); }
+function getUnreadCount(task){
+  const comments = task.comments||[];
+  if(!comments.length) return 0;
+  const vaneComments = comments.filter(c=>c.author&&c.author.includes('Vane'));
+  if(!vaneComments.length) return 0;
+  const lastRead = getLastReadCount(task.id);
+  const vaneCount = vaneComments.length;
+  return Math.max(0, vaneCount - lastRead);
+}
 
 // ── DARK MODE ─────────────────────────────────────────────
 const savedDark = localStorage.getItem('darkMode');
@@ -816,11 +935,34 @@ function getFiltered() {
   }
   const priOrder={Alta:0,Media:1,Baja:2};
   if(currentSort==='deadline') res=[...res].sort((a,b)=>{
+    // Done tasks always go last
+    const aDone = a.done||a.estado==='publicada';
+    const bDone = b.done||b.estado==='publicada';
+    if(aDone&&!bDone) return 1;
+    if(!aDone&&bDone) return -1;
     if(!a.deadline&&!b.deadline)return 0;
     if(!a.deadline)return 1; if(!b.deadline)return -1;
     return a.deadline.localeCompare(b.deadline);
   });
-  else if(currentSort==='prioridad') res=[...res].sort((a,b)=>(priOrder[a.priority]||1)-(priOrder[b.priority]||1));
+  else if(currentSort==='prioridad') res=[...res].sort((a,b)=>{
+    const aDone = a.done||a.estado==='publicada';
+    const bDone = b.done||b.estado==='publicada';
+    if(aDone&&!bDone) return 1;
+    if(!aDone&&bDone) return -1;
+    return (priOrder[a.priority]||1)-(priOrder[b.priority]||1);
+  });
+  else {
+    // Default sort: done tasks at bottom
+    res=[...res].sort((a,b)=>{
+      const aDone = a.done||a.estado==='publicada';
+      const bDone = b.done||b.estado==='publicada';
+      if(aDone&&!bDone) return 1;
+      if(!aDone&&bDone) return -1;
+      const ta=a.createdAt?.toDate?.()?.getTime?.()||0;
+      const tb=b.createdAt?.toDate?.()?.getTime?.()||0;
+      return tb-ta;
+    });
+  }
   return res;
 }
 
@@ -840,6 +982,24 @@ function renderTasks() {
         <div class="c-meta"><span class="c-author">${esc(c.author)}</span><span class="c-date">${c.date||''}</span></div>
         <div class="c-text">${esc(c.text)}</div>
       </div>`).join('');
+    const unread = isVane() ? 0 : getUnreadCount(t);
+    const totalComments = (t.comments||[]).length;
+
+    // Subtasks
+    const subtasks = t.subtasks||[];
+    const subDone = subtasks.filter(s=>s.done).length;
+    const subPct = subtasks.length ? Math.round(subDone/subtasks.length*100) : 0;
+    const subtasksHtml = subtasks.length ? `
+      <div class="subtask-list">
+        ${subtasks.map((s,i)=>`
+          <div class="subtask-item">
+            <div class="subtask-check ${s.done?'done':''}" onclick="toggleSubtask('${t.id}',${i})"></div>
+            <span class="subtask-text ${s.done?'done':''}">${esc(s.text)}</span>
+            ${!isVane()?`<button onclick="deleteSubtask('${t.id}',${i})" style="font-size:10px;color:#94a3b8;background:none;border:none;cursor:pointer;">✕</button>`:''}
+          </div>`).join('')}
+      </div>
+      <div class="subtask-progress"><div class="subtask-progress-bar" style="width:${subPct}%"></div></div>
+      <div style="font-size:10px;color:var(--muted);margin-top:3px;">${subDone}/${subtasks.length} subtareas · ${subPct}%</div>` : '';
 
     return `
     <div class="task-item pri-${t.priority} ${(t.done||t.estado==='publicada')?'done-yes':''}" id="ti-${t.id}">
@@ -847,6 +1007,8 @@ function renderTasks() {
         <div class="task-check ${(t.done||t.estado==='publicada')?'checked':''}" onclick="toggleDone('${t.id}',${!!(t.done||t.estado==='publicada')})"></div>
         <div class="task-info">
           <div class="task-name">${esc(t.name)}</div>
+          ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
+          ${subtasksHtml}
           <div class="task-meta">
             <span class="badge b-${t.priority}">${t.priority}</span>
             <span class="badge ${estado.cls}">${estado.label}</span>
@@ -856,7 +1018,9 @@ function renderTasks() {
             ${dl?`<span class="badge ${dl.cls}">${dl.label}</span>`:''}
             ${personaInfo?`<span class="badge b-asignada">${personaInfo.name} ${personaInfo.emoji}</span>`:''}
             ${t.link?`<a href="${esc(t.link)}" target="_blank" class="task-link">🔗 Ver link</a>`:''}
-            ${(t.comments||[]).length?`<span style="font-size:10px;color:var(--muted);">💬 ${t.comments.length}</span>`:''}
+            ${t.assignedTo&&!isVane()?`<span class="badge b-assigned-to">→ ${PERSONAS.find(p=>p.key===t.assignedTo)?.name||t.assignedTo}</span>`:''}
+            ${t.assignedFrom?`<span class="badge b-assigned-from">De: ${PERSONAS.find(p=>p.key===t.assignedFrom)?.name||t.assignedFrom}</span>`:''}
+            ${totalComments?`<span style="font-size:10px;color:var(--muted);cursor:pointer;" onclick="toggleComments('${t.id}')">💬 ${totalComments}${unread>0?`<span class="unread-badge">${unread}</span>`:''}</span>`:''}
           </div>
         </div>
         <div class="task-btns">
@@ -864,12 +1028,20 @@ function renderTasks() {
             ${Object.entries(ESTADOS).map(([k,v])=>`<option value="${k}" ${(t.estado||'pendiente')===k?'selected':''}>${v.label}</option>`).join('')}
           </select>`:''}
           ${!isVane()?`<button class="icon-btn" onclick="openEdit('${t.id}')" title="Editar">✏️</button>`:''}
-          <button class="icon-btn" onclick="toggleComments('${t.id}')">💬</button>
+          ${!isVane()?`<button class="icon-btn" onclick="openAssign('${t.id}')" title="Asignar">👥</button>`:''}
+          <button class="icon-btn" style="position:relative;" onclick="toggleComments('${t.id}')" title="Comentarios">💬${unread>0&&!isVane()?`<span class="unread-badge" style="position:absolute;top:2px;right:2px;pointer-events:none;">${unread}</span>`:''}</button>
           ${!isVane()?`<button class="icon-btn" onclick="deleteTask('${t.id}')">🗑️</button>`:''}
         </div>
       </div>
+      ${isVane()&&t.estado==='en-revision'?`<div class="vane-action-bar">
+        <span style="font-size:11px;font-weight:700;color:#b45309;">🟡 Esperando revisión tuya:</span>
+        <button class="approve-btn" onclick="vaneApprove('${t.id}')">✅ Aprobar</button>
+        <button class="reject-btn" onclick="vaneReject('${t.id}')">❌ Rechazar</button>
+      </div>`:''}
+      </div>
       <div class="comments-panel" id="cp-${t.id}">
-        <div id="cl-${t.id}">${(t.comments||[]).length?comments:'<div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Sin comentarios aún 🌸</div>'}</div>
+        ${!isVane()?`<div style="margin-bottom:8px;"><button class="subtask-add" style="display:flex;gap:5px;width:100%;" onclick="event.stopPropagation()"><input placeholder="+ Agregar subtarea..." id="sti-${t.id}" onkeydown="if(event.key==='Enter')addSubtask('${t.id}')" style="flex:1;padding:5px 9px;border-radius:7px;border:1.5px solid var(--border);font-size:11.5px;color:var(--text);outline:none;background:#fff;" /><button onclick="addSubtask('${t.id}')" style="padding:5px 10px;border-radius:7px;background:var(--current-s);color:var(--current-t);font-size:11px;font-weight:700;border:none;cursor:pointer;">+ Sub</button></div></div>`:''}
+        <div id="cl-${t.id}">${totalComments?comments:'<div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Sin comentarios aún 🌸</div>'}</div>
         <div class="comment-form">
           <input placeholder="Escribí un comentario..." id="ci-${t.id}" onkeydown="if(event.key==='Enter')addComment('${t.id}')" />
           <button class="comment-btn-send" onclick="addComment('${t.id}')">Enviar ✉️</button>
@@ -999,6 +1171,7 @@ window.openEdit = (id) => {
   document.getElementById('editRed').value = t.red||'';
   document.getElementById('editDeadline').value = t.deadline||'';
   document.getElementById('editLink').value = t.link||'';
+  document.getElementById('editDesc').value = t.desc||'';
   document.getElementById('editOverlay').classList.add('open');
 };
 
@@ -1019,6 +1192,7 @@ window.saveEdit = async () => {
     red:document.getElementById('editRed').value,
     deadline:document.getElementById('editDeadline').value,
     link:document.getElementById('editLink').value,
+    desc:document.getElementById('editDesc').value,
   });
   closeEdit();
 };
@@ -1038,6 +1212,7 @@ window.addTask = async () => {
     red:document.getElementById('taskRed').value,
     deadline:document.getElementById('taskDeadline').value,
     link:document.getElementById('taskLink').value,
+    desc:'', subtasks:[],
     done:false, comments:[], createdAt:serverTimestamp()
   });
   input.value='';
@@ -1058,7 +1233,43 @@ window.deleteTask = async (id) => {
   await deleteDoc(doc(db,'tasks',id));
 };
 
-window.toggleComments = (id) => document.getElementById('cp-'+id).classList.toggle('open');
+// ── SUBTASKS ──────────────────────────────────────────────
+window.addSubtask = async (taskId) => {
+  const input = document.getElementById('sti-'+taskId);
+  const text = input.value.trim(); if(!text) return;
+  const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const subtasks = [...(task.subtasks||[]), {text, done:false}];
+  await updateDoc(doc(db,'tasks',taskId),{subtasks});
+  input.value='';
+};
+
+window.toggleSubtask = async (taskId, idx) => {
+  const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const subtasks = [...(task.subtasks||[])];
+  subtasks[idx] = {...subtasks[idx], done:!subtasks[idx].done};
+  await updateDoc(doc(db,'tasks',taskId),{subtasks});
+};
+
+window.deleteSubtask = async (taskId, idx) => {
+  const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const subtasks = (task.subtasks||[]).filter((_,i)=>i!==idx);
+  await updateDoc(doc(db,'tasks',taskId),{subtasks});
+};
+
+window.toggleComments = (id) => {
+  const panel = document.getElementById('cp-'+id);
+  const isOpening = !panel.classList.contains('open');
+  panel.classList.toggle('open');
+  if(isOpening && !isVane()){
+    const task = tasks.find(t=>t.id===id);
+    if(task){
+      const vaneCount = (task.comments||[]).filter(c=>c.author&&c.author.includes('Vane')).length;
+      markCommentsRead(id, vaneCount);
+      // re-render just the unread indicators for this task
+      renderTasks();
+    }
+  }
+};
 
 window.addComment = async (taskId) => {
   const input=document.getElementById('ci-'+taskId);
@@ -1204,9 +1415,211 @@ window.downloadPDF = () => {
   pdf.save(`reporte-${isVane()?'general-vane':p.key}-${new Date().toISOString().slice(0,10)}.pdf`);
 };
 
+// ── PIN SYSTEM ────────────────────────────────────────────
+const PINS_KEY = 'tf_pins'; // {angie:'1234', ...}
+const UNLOCKED_KEY = 'tf_unlocked'; // {angie:true, ...}
+let pinTarget = null; // persona idx or 'vane'
+let pinBuffer = '';
+let pinMode = 'enter'; // 'enter' | 'setup1' | 'setup2'
+let pinSetupFirst = '';
+
+function getPins(){ try{ return JSON.parse(localStorage.getItem(PINS_KEY)||'{}'); }catch(e){ return {}; } }
+function getUnlocked(){ try{ return JSON.parse(localStorage.getItem(UNLOCKED_KEY)||'{}'); }catch(e){ return {}; } }
+function setUnlocked(key, val){ const u=getUnlocked(); u[key]=val; localStorage.setItem(UNLOCKED_KEY, JSON.stringify(u)); }
+
+function requirePin(idx){
+  const key = idx==='vane' ? 'vane' : PERSONAS[idx].key;
+  const p = idx==='vane' ? PERSONAS[4] : PERSONAS[idx];
+  const pins = getPins();
+  const unlocked = getUnlocked();
+
+  // Already unlocked on this device
+  if(unlocked[key]) { doSwitchPersona(idx); return; }
+
+  // No PIN set yet — offer setup
+  pinTarget = idx;
+  if(!pins[key]){
+    pinMode = 'setup1';
+    pinBuffer = '';
+    showPinModal(p, 'Crear PIN', `Elegí un PIN de 4 dígitos para ${p.name}`, true);
+  } else {
+    pinMode = 'enter';
+    pinBuffer = '';
+    showPinModal(p, `Hola, ${p.name} ${p.emoji}`, 'Ingresá tu PIN para entrar', false);
+  }
+}
+
+function showPinModal(p, title, sub, isSetup){
+  document.getElementById('pinAvatar').textContent = p.avatar;
+  document.getElementById('pinAvatar').style.background = p.h;
+  document.documentElement.style.setProperty('--pin-color', p.h);
+  document.getElementById('pinTitle').textContent = title;
+  document.getElementById('pinSub').textContent = sub;
+  document.getElementById('pinError').textContent = '';
+  document.getElementById('pinSetupHint').textContent = isSetup ? '💡 Este PIN solo se pide una vez por dispositivo' : '';
+  document.getElementById('pinSkipBtn').style.display = isSetup ? 'inline-block' : 'none';
+  pinBuffer = '';
+  updatePinDots();
+  document.getElementById('pinOverlay').style.display = 'flex';
+}
+
+function updatePinDots(){
+  for(let i=0;i<4;i++){
+    document.getElementById('pd'+i).classList.toggle('filled', i<pinBuffer.length);
+  }
+}
+
+window.pinKey = (k) => {
+  if(k==='back'){ pinBuffer=pinBuffer.slice(0,-1); updatePinDots(); return; }
+  if(k==='clear'){ pinBuffer=''; updatePinDots(); return; }
+  if(pinBuffer.length>=4) return;
+  pinBuffer+=k;
+  updatePinDots();
+  if(pinBuffer.length===4) setTimeout(()=>processPIN(), 150);
+};
+
+function processPIN(){
+  const pins = getPins();
+  const key = pinTarget==='vane' ? 'vane' : PERSONAS[pinTarget].key;
+  const p = pinTarget==='vane' ? PERSONAS[4] : PERSONAS[pinTarget];
+
+  if(pinMode==='enter'){
+    if(pinBuffer===pins[key]){
+      setUnlocked(key, true);
+      document.getElementById('pinOverlay').style.display='none';
+      doSwitchPersona(pinTarget);
+    } else {
+      document.getElementById('pinError').textContent='PIN incorrecto, intentá de nuevo';
+      pinBuffer=''; updatePinDots();
+    }
+  } else if(pinMode==='setup1'){
+    pinSetupFirst = pinBuffer;
+    pinMode = 'setup2';
+    pinBuffer = '';
+    updatePinDots();
+    document.getElementById('pinTitle').textContent = 'Confirmá tu PIN';
+    document.getElementById('pinSub').textContent = 'Ingresá el PIN de nuevo para confirmar';
+    document.getElementById('pinError').textContent = '';
+  } else if(pinMode==='setup2'){
+    if(pinBuffer===pinSetupFirst){
+      const p2 = getPins(); p2[key]=pinBuffer; localStorage.setItem(PINS_KEY, JSON.stringify(p2));
+      setUnlocked(key, true);
+      document.getElementById('pinOverlay').style.display='none';
+      doSwitchPersona(pinTarget);
+    } else {
+      document.getElementById('pinError').textContent='Los PINs no coinciden, empezá de nuevo';
+      pinMode='setup1'; pinBuffer=''; pinSetupFirst=''; updatePinDots();
+      document.getElementById('pinTitle').textContent=`Crear PIN — ${p.name}`;
+      document.getElementById('pinSub').textContent='Elegí un PIN de 4 dígitos';
+    }
+  }
+}
+
+window.pinSkip = () => {
+  // Skip PIN setup — mark as unlocked without PIN
+  const key = pinTarget==='vane' ? 'vane' : PERSONAS[pinTarget].key;
+  setUnlocked(key, true);
+  document.getElementById('pinOverlay').style.display='none';
+  doSwitchPersona(pinTarget);
+};
+
+// Rename original switchPersona to doSwitchPersona and wrap with PIN check
+window.doSwitchPersona = window.switchPersona;
+window.switchPersona = (idx) => requirePin(idx);
+
+// ── ASSIGN TASK ───────────────────────────────────────────
+let assigningId = null;
+let assigningTarget = null;
+
+window.openAssign = (id) => {
+  const t = tasks.find(t=>t.id===id); if(!t) return;
+  assigningId = id; assigningTarget = null;
+  document.getElementById('assignTaskName').textContent = `"${t.name}"`;
+  const p = PERSONAS[currentP];
+  const others = PERSONAS.slice(0,4).filter(x=>x.key!==p.key);
+  document.getElementById('assignPersonaList').innerHTML = others.map(o=>`
+    <label style="display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:${getComputedStyle(document.documentElement).getPropertyValue('--radius-sm')};border:1.5px solid var(--border);cursor:pointer;transition:all .15s;" onclick="selectAssignTarget('${o.key}',this)">
+      <div style="width:28px;height:28px;border-radius:50%;background:${o.h};display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:800;flex-shrink:0;">${o.avatar}</div>
+      <div><div style="font-size:13px;font-weight:700;">${o.name} ${o.emoji}</div><div style="font-size:10px;color:var(--muted);">${o.role}</div></div>
+    </label>`).join('');
+  document.getElementById('assignOverlay').classList.add('open');
+};
+
+window.selectAssignTarget = (key, el) => {
+  assigningTarget = key;
+  document.querySelectorAll('#assignPersonaList label').forEach(l=>l.style.borderColor='var(--border)');
+  el.style.borderColor = 'var(--current-h)';
+  el.style.background = 'var(--current-s)';
+};
+
+window.closeAssign = () => {
+  assigningId=null; assigningTarget=null;
+  document.getElementById('assignOverlay').classList.remove('open');
+};
+
+window.saveAssign = async () => {
+  if(!assigningId||!assigningTarget){alert('Elegí a quién asignar');return;}
+  const fromKey = PERSONAS[currentP].key;
+  // Create a copy of the task for the target persona
+  const original = tasks.find(t=>t.id===assigningId);
+  if(!original) return;
+  await addDoc(collection(db,'tasks'),{
+    persona: assigningTarget,
+    name: original.name,
+    desc: original.desc||'',
+    priority: original.priority,
+    estado: 'pendiente',
+    marca: original.marca||'',
+    categoria: original.categoria||'',
+    red: original.red||'',
+    deadline: original.deadline||'',
+    link: original.link||'',
+    assignedFrom: fromKey,
+    subtasks: [], done: false, comments: [], createdAt: serverTimestamp()
+  });
+  // Add a comment on the original task noting the assignment
+  const fromName = PERSONAS[currentP].name;
+  const toName = PERSONAS.find(p=>p.key===assigningTarget)?.name||assigningTarget;
+  const comments = [...(original.comments||[]), {
+    author: fromName,
+    text: `📤 Tarea asignada a ${toName}`,
+    date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
+  }];
+  await updateDoc(doc(db,'tasks',assigningId),{comments, assignedTo: assigningTarget});
+  closeAssign();
+};
+
+// ── VANE APPROVE / REJECT ────────────────────────────────
+window.vaneApprove = async (taskId) => {
+  const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const comments = [...(task.comments||[]), {
+    author:'Vane 👑',
+    text:'✅ Aprobada',
+    date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
+  }];
+  await updateDoc(doc(db,'tasks',taskId),{estado:'aprobada', comments});
+};
+
+window.vaneReject = async (taskId) => {
+  const nota = prompt('¿Por qué la rechazás? (opcional)');
+  const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const comments = [...(task.comments||[]), {
+    author:'Vane 👑',
+    text: nota ? `❌ Rechazada: ${nota}` : '❌ Rechazada — volver a trabajarla',
+    date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
+  }];
+  await updateDoc(doc(db,'tasks',taskId),{estado:'en-progreso', comments});
+};
+
 // ── INIT ──────────────────────────────────────────────────
 const startPersona = savedPersona !== null ? (isNaN(savedPersona) ? savedPersona : parseInt(savedPersona)) : 0;
-switchPersona(startPersona);
+// On init, if device already unlocked for this persona, go straight in
+const startKey = startPersona==='vane'?'vane':PERSONAS[startPersona]?.key;
+if(getUnlocked()[startKey]){
+  doSwitchPersona(startPersona);
+} else {
+  requirePin(startPersona);
+}
 </script>
 </body>
 </html>
