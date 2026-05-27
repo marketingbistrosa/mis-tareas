@@ -233,7 +233,38 @@ button{border:none;cursor:pointer;}
 .pin-setup-hint{font-size:11px;color:var(--muted);margin-top:8px;}
 .pin-skip{font-size:11px;color:var(--muted);cursor:pointer;text-decoration:underline;margin-top:10px;display:inline-block;}
 
-/* ASSIGN BADGE */
+/* SUBTASK INLINE ADD */
+.subtask-inline-add{display:flex;gap:5px;margin-top:7px;}
+.subtask-inline-add input{flex:1;padding:5px 9px;border-radius:7px;border:1.5px dashed var(--border);font-size:11.5px;color:var(--text);outline:none;background:transparent;transition:border .2s;}
+[data-dark="1"] .subtask-inline-add input{color:var(--text);}
+.subtask-inline-add input:focus{border-color:var(--current-h);background:#fff;}
+[data-dark="1"] .subtask-inline-add input:focus{background:rgba(255,255,255,0.08);}
+.subtask-inline-add button{padding:5px 10px;border-radius:7px;background:var(--current-s);color:var(--current-t);font-size:11px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+
+/* NOTIFICATION BAR */
+.notif-bar{max-width:1320px;margin:0 auto 14px;position:relative;}
+.notif-bell-row{display:flex;align-items:center;gap:8px;}
+.notif-bell-btn{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,0.8);border:1.5px solid var(--border);font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;box-shadow:var(--shadow-sm);position:relative;transition:all .2s;}
+[data-dark="1"] .notif-bell-btn{background:rgba(255,255,255,0.08);}
+.notif-bell-btn:hover{box-shadow:var(--shadow);}
+.notif-count{background:#ef4444;color:#fff;border-radius:999px;font-size:9px;font-weight:800;min-width:16px;height:16px;padding:0 4px;display:inline-flex;align-items:center;justify-content:center;}
+.notif-panel{position:absolute;top:calc(100% + 8px);left:0;width:340px;background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);box-shadow:var(--shadow);z-index:200;overflow:hidden;display:none;}
+[data-dark="1"] .notif-panel{background:#1e1e2e;}
+.notif-panel.open{display:block;}
+.notif-panel-head{padding:11px 15px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.notif-panel-head span{font-size:13px;font-weight:800;}
+.notif-clear{font-size:11px;color:var(--current-h);cursor:pointer;font-weight:700;background:none;border:none;}
+.notif-item{display:flex;gap:10px;padding:10px 15px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .15s;}
+.notif-item:hover{background:#f8fafc;}
+[data-dark="1"] .notif-item:hover{background:rgba(255,255,255,0.05);}
+.notif-item.unread{background:var(--current-s);}
+[data-dark="1"] .notif-item.unread{background:rgba(255,107,157,0.1);}
+.notif-dot{width:8px;height:8px;border-radius:50%;background:var(--current-h);flex-shrink:0;margin-top:5px;}
+.notif-dot.read{background:#e2e8f0;}
+.notif-text{font-size:12px;font-weight:600;line-height:1.4;flex:1;}
+.notif-time{font-size:10px;color:var(--muted);margin-top:2px;}
+.notif-empty{padding:24px;text-align:center;font-size:12px;color:var(--muted);}
+@media(max-width:600px){.notif-panel{width:290px;}}
 .b-assigned-to{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#fdf4ff;color:#7e22ce;}
 .b-assigned-from{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#f0f9ff;color:#0369a1;}
 
@@ -495,6 +526,21 @@ button{border:none;cursor:pointer;}
 </div>
 
 <div class="app">
+  <!-- NOTIFICATION BAR -->
+  <div class="notif-bar" id="notifBar" style="display:none;">
+    <div class="notif-bell-row">
+      <button class="notif-bell-btn" onclick="toggleNotifPanel()">
+        🔔 Notificaciones <span class="notif-count" id="notifCount" style="display:none;">0</span>
+      </button>
+    </div>
+    <div class="notif-panel" id="notifPanel">
+      <div class="notif-panel-head">
+        <span>🔔 Notificaciones</span>
+        <button class="notif-clear" onclick="clearNotifs()">Marcar todo leído</button>
+      </div>
+      <div id="notifList"><div class="notif-empty">Sin notificaciones nuevas 🌸</div></div>
+    </div>
+  </div>
   <!-- ALERT BANNER -->
   <div class="alert-banner" id="alertBanner">
     ⚠️ <span id="alertText"></span>
@@ -840,6 +886,7 @@ function subscribeToData() {
     snap => {
       tasks = snap.docs.map(d=>({id:d.id,...d.data()}));
       renderTasks(); updateStats(); renderCalendar(); renderBrandSummary(); checkAlerts();
+      checkForNewAssignments();
       setConn('online','En línea · Tiempo real');
     }, ()=>setConn('error','Sin conexión')
   );
@@ -1009,6 +1056,11 @@ function renderTasks() {
           <div class="task-name">${esc(t.name)}</div>
           ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
           ${subtasksHtml}
+          ${!isVane()&&!(t.done||t.estado==='publicada')?`
+          <div class="subtask-inline-add">
+            <input placeholder="+ Agregar subtarea..." id="sti-${t.id}" onkeydown="if(event.key==='Enter'){addSubtask('${t.id}');event.preventDefault();}" />
+            <button onclick="addSubtask('${t.id}')">+ Sub</button>
+          </div>`:''}
           <div class="task-meta">
             <span class="badge b-${t.priority}">${t.priority}</span>
             <span class="badge ${estado.cls}">${estado.label}</span>
@@ -1038,9 +1090,7 @@ function renderTasks() {
         <button class="approve-btn" onclick="vaneApprove('${t.id}')">✅ Aprobar</button>
         <button class="reject-btn" onclick="vaneReject('${t.id}')">❌ Rechazar</button>
       </div>`:''}
-      </div>
       <div class="comments-panel" id="cp-${t.id}">
-        ${!isVane()?`<div style="margin-bottom:8px;"><button class="subtask-add" style="display:flex;gap:5px;width:100%;" onclick="event.stopPropagation()"><input placeholder="+ Agregar subtarea..." id="sti-${t.id}" onkeydown="if(event.key==='Enter')addSubtask('${t.id}')" style="flex:1;padding:5px 9px;border-radius:7px;border:1.5px solid var(--border);font-size:11.5px;color:var(--text);outline:none;background:#fff;" /><button onclick="addSubtask('${t.id}')" style="padding:5px 10px;border-radius:7px;background:var(--current-s);color:var(--current-t);font-size:11px;font-weight:700;border:none;cursor:pointer;">+ Sub</button></div></div>`:''}
         <div id="cl-${t.id}">${totalComments?comments:'<div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Sin comentarios aún 🌸</div>'}</div>
         <div class="comment-form">
           <input placeholder="Escribí un comentario..." id="ci-${t.id}" onkeydown="if(event.key==='Enter')addComment('${t.id}')" />
@@ -1280,6 +1330,15 @@ window.addComment = async (taskId) => {
   comments.push({author:authorName,text,date:new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})});
   await updateDoc(doc(db,'tasks',taskId),{comments});
   input.value='';
+  // Notificar a la dueña de la tarea si Vane comenta
+  if(isVane()&&task.persona){
+    addNotif(task.persona,{
+      id:`comment-${taskId}-${Date.now()}`,
+      emoji:'💬',
+      text:`Vane comentó en "${task.name}": "${text.slice(0,40)}${text.length>40?'…':''}"`,
+      taskId
+    });
+  }
 };
 
 window.addMilestone = async () => {
@@ -1598,18 +1657,130 @@ window.vaneApprove = async (taskId) => {
     date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
   }];
   await updateDoc(doc(db,'tasks',taskId),{estado:'aprobada', comments});
+  // Notificar a la dueña
+  if(task.persona){
+    addNotif(task.persona,{
+      id:`approve-${taskId}-${Date.now()}`,
+      emoji:'✅',
+      text:`Vane aprobó tu tarea: "${task.name}"`,
+      taskId
+    });
+  }
 };
 
 window.vaneReject = async (taskId) => {
   const nota = prompt('¿Por qué la rechazás? (opcional)');
   const task = tasks.find(t=>t.id===taskId); if(!task) return;
+  const comentarioTexto = nota ? `❌ Rechazada: ${nota}` : '❌ Rechazada — volver a trabajarla';
   const comments = [...(task.comments||[]), {
     author:'Vane 👑',
-    text: nota ? `❌ Rechazada: ${nota}` : '❌ Rechazada — volver a trabajarla',
+    text: comentarioTexto,
     date: new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})
   }];
   await updateDoc(doc(db,'tasks',taskId),{estado:'en-progreso', comments});
+  // Notificar a la dueña
+  if(task.persona){
+    addNotif(task.persona,{
+      id:`reject-${taskId}-${Date.now()}`,
+      emoji:'❌',
+      text:`Vane rechazó "${task.name}"${nota?`: ${nota.slice(0,50)}${nota.length>50?'…':''}`:' — revisala'}`,
+      taskId
+    });
+  }
 };
+
+// ── NOTIFICATIONS ─────────────────────────────────────────
+const NOTIF_KEY = 'tf_notifs'; // stored per persona key
+
+function getNotifsStore(){ try{ return JSON.parse(localStorage.getItem(NOTIF_KEY)||'{}'); }catch(e){ return {}; } }
+function saveNotifsStore(s){ localStorage.setItem(NOTIF_KEY, JSON.stringify(s)); }
+
+function getMyNotifs(){
+  if(isVane()) return [];
+  const key = PERSONAS[currentP].key;
+  const store = getNotifsStore();
+  return store[key]||[];
+}
+
+function addNotif(personaKey, notif){
+  const store = getNotifsStore();
+  if(!store[personaKey]) store[personaKey]=[];
+  // avoid duplicates by id
+  if(!store[personaKey].find(n=>n.id===notif.id)){
+    store[personaKey].unshift({...notif, read:false, ts: Date.now()});
+    // keep only last 30
+    store[personaKey] = store[personaKey].slice(0,30);
+    saveNotifsStore(store);
+  }
+}
+
+function checkForNewAssignments(){
+  if(isVane()) return;
+  const key = PERSONAS[currentP].key;
+  // look for tasks assigned to this persona from someone else
+  tasks.filter(t=>t.assignedFrom&&t.assignedFrom!==key&&t.persona===key).forEach(t=>{
+    const fromName = PERSONAS.find(p=>p.key===t.assignedFrom)?.name||t.assignedFrom;
+    addNotif(key, {
+      id: `assign-${t.id}`,
+      emoji:'👥',
+      text:`${fromName} te asignó: "${t.name}"`,
+      taskId: t.id
+    });
+  });
+  renderNotifs();
+}
+
+function renderNotifs(){
+  if(isVane()){ document.getElementById('notifBar').style.display='none'; return; }
+  document.getElementById('notifBar').style.display='block';
+  const notifs = getMyNotifs();
+  const unread = notifs.filter(n=>!n.read).length;
+  const countEl = document.getElementById('notifCount');
+  if(unread>0){ countEl.style.display='inline-flex'; countEl.textContent=unread; }
+  else { countEl.style.display='none'; }
+
+  const list = document.getElementById('notifList');
+  if(!notifs.length){ list.innerHTML='<div class="notif-empty">Sin notificaciones nuevas 🌸</div>'; return; }
+  list.innerHTML = notifs.map(n=>`
+    <div class="notif-item ${n.read?'':'unread'}" onclick="clickNotif('${n.id}','${n.taskId||''}')">
+      <div class="notif-dot ${n.read?'read':''}"></div>
+      <div>
+        <div class="notif-text">${n.emoji||'🔔'} ${esc(n.text)}</div>
+        <div class="notif-time">${n.ts?new Date(n.ts).toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}):''}</div>
+      </div>
+    </div>`).join('');
+}
+
+window.toggleNotifPanel = () => {
+  document.getElementById('notifPanel').classList.toggle('open');
+};
+
+window.clickNotif = (id, taskId) => {
+  // mark as read
+  const key = PERSONAS[currentP].key;
+  const store = getNotifsStore();
+  if(store[key]){ store[key]=store[key].map(n=>n.id===id?{...n,read:true}:n); saveNotifsStore(store); }
+  renderNotifs();
+  document.getElementById('notifPanel').classList.remove('open');
+  // scroll to task if exists
+  if(taskId){ const el=document.getElementById('ti-'+taskId); if(el)el.scrollIntoView({behavior:'smooth',block:'center'}); }
+};
+
+window.clearNotifs = () => {
+  const key = PERSONAS[currentP].key;
+  const store = getNotifsStore();
+  if(store[key]){ store[key]=store[key].map(n=>({...n,read:true})); saveNotifsStore(store); }
+  renderNotifs();
+};
+
+// Close notif panel when clicking outside
+document.addEventListener('click', e=>{
+  const panel = document.getElementById('notifPanel');
+  const btn = document.querySelector('.notif-bell-btn');
+  if(panel&&!panel.contains(e.target)&&btn&&!btn.contains(e.target)){
+    panel.classList.remove('open');
+  }
+});
 
 // ── INIT ──────────────────────────────────────────────────
 const startPersona = savedPersona !== null ? (isNaN(savedPersona) ? savedPersona : parseInt(savedPersona)) : 0;
