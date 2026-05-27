@@ -151,23 +151,30 @@ button{border:none;cursor:pointer;}
 /* MARCA FILTER */
 .marca-filter{display:flex;gap:5px;margin-bottom:11px;flex-wrap:wrap;}
 
-/* TASK */
-.task-list{display:flex;flex-direction:column;gap:8px;}
-.task-item{background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);padding:12px 14px;transition:all .2s;border-left:4px solid transparent;}
+/* TASK CARD — compact Trello style */
+.task-list{display:flex;flex-direction:column;gap:7px;}
+.task-item{background:#fff;border-radius:var(--radius-md);border:1.5px solid var(--border);padding:11px 13px;transition:all .18s;border-left:4px solid transparent;cursor:pointer;position:relative;}
 [data-dark="1"] .task-item{background:rgba(255,255,255,0.05);}
 .task-item:hover{box-shadow:var(--shadow-sm);transform:translateY(-1px);}
 .task-item.pri-Alta{border-left-color:#ef4444;}
 .task-item.pri-Media{border-left-color:#facc15;}
 .task-item.pri-Baja{border-left-color:#22c55e;}
 .task-item.done-yes{opacity:.5;}
-.task-row{display:flex;align-items:flex-start;gap:9px;}
-.task-check{width:18px;height:18px;border-radius:5px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:transparent;}
+.task-item.done-yes .task-name{text-decoration:line-through;color:var(--muted);}
+.task-card-top{display:flex;align-items:flex-start;gap:9px;}
+.task-check{width:18px;height:18px;border-radius:5px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:transparent;z-index:2;position:relative;}
+.task-check:hover{border-color:var(--current-h);}
 .task-check.checked{background:#22c55e;border-color:#22c55e;}
 .task-check.checked::after{content:'✓';color:#fff;font-size:10px;font-weight:800;}
-.task-info{flex:1;min-width:0;}
-.task-name{font-size:13px;font-weight:700;line-height:1.3;}
-.done-yes .task-name{text-decoration:line-through;color:var(--muted);}
-.task-meta{display:flex;gap:5px;margin-top:5px;flex-wrap:wrap;align-items:center;}
+.task-name{font-size:13px;font-weight:700;line-height:1.3;flex:1;}
+.task-card-meta{display:flex;gap:4px;margin-top:7px;margin-left:27px;flex-wrap:wrap;align-items:center;}
+.task-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;margin-left:6px;}
+.task-subtask-mini{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted);font-weight:600;}
+.task-mini-bar{width:36px;height:3px;background:#e2e8f0;border-radius:2px;overflow:hidden;}
+.task-mini-fill{height:100%;background:var(--current-h);border-radius:2px;}
+.task-card-icons{display:flex;gap:5px;align-items:center;}
+.task-card-icon{font-size:12px;opacity:.55;}
+
 .badge{padding:2px 8px;border-radius:999px;font-size:10px;font-weight:700;white-space:nowrap;}
 .b-Alta{background:#fee2e2;color:#dc2626;}
 .b-Media{background:#fef9c3;color:#b45309;}
@@ -196,6 +203,76 @@ button{border:none;cursor:pointer;}
 /* UNREAD BADGE */
 .unread-badge{display:inline-flex;align-items:center;justify-content:center;background:#ef4444;color:#fff;border-radius:999px;font-size:9px;font-weight:800;min-width:16px;height:16px;padding:0 4px;margin-left:2px;animation:pulse-red .8s ease-in-out infinite alternate;}
 @keyframes pulse-red{from{box-shadow:0 0 0 0 rgba(239,68,68,0.4);}to{box-shadow:0 0 0 5px rgba(239,68,68,0);}}
+
+/* TASK DETAIL MODAL */
+.task-detail-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:998;padding:16px;opacity:0;pointer-events:none;transition:opacity .2s;}
+.task-detail-overlay.open{opacity:1;pointer-events:all;}
+.task-detail-modal{background:#fff;border-radius:var(--radius);width:100%;max-width:600px;max-height:92vh;display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,.22);transform:translateY(10px);transition:transform .2s;overflow:hidden;}
+[data-dark="1"] .task-detail-modal{background:#1e1e2e;}
+.task-detail-overlay.open .task-detail-modal{transform:translateY(0);}
+.tdm-head{padding:16px 20px 13px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;flex-shrink:0;}
+.tdm-check{width:22px;height:22px;border-radius:6px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:transparent;transition:all .15s;margin-top:3px;}
+.tdm-check:hover{border-color:var(--current-h);}
+.tdm-check.checked{background:#22c55e;border-color:#22c55e;}
+.tdm-check.checked::after{content:'✓';color:#fff;font-size:11px;font-weight:800;}
+.tdm-title{font-size:16px;font-weight:800;flex:1;line-height:1.3;}
+.tdm-close{width:30px;height:30px;border-radius:8px;background:transparent;color:var(--muted);font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;border:none;cursor:pointer;}
+.tdm-close:hover{background:#f1f5f9;color:var(--text);}
+[data-dark="1"] .tdm-close:hover{background:rgba(255,255,255,0.1);}
+.tdm-body{overflow-y:auto;flex:1;padding:16px 20px;}
+.tdm-body::-webkit-scrollbar{width:4px;}
+.tdm-body::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:2px;}
+.tdm-section{margin-bottom:18px;}
+.tdm-label{font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;}
+.tdm-badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px;}
+.tdm-desc-box{font-size:13px;color:var(--text);line-height:1.6;white-space:pre-wrap;padding:10px 12px;background:#f8fafc;border-radius:9px;}
+[data-dark="1"] .tdm-desc-box{background:rgba(255,255,255,0.05);}
+.tdm-desc-empty{font-size:12px;color:var(--muted);font-style:italic;}
+/* subtasks in modal */
+.tdm-sub-list{display:flex;flex-direction:column;gap:5px;}
+.tdm-sub-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f8fafc;border-radius:8px;}
+[data-dark="1"] .tdm-sub-item{background:rgba(255,255,255,0.05);}
+.tdm-sub-check{width:17px;height:17px;border-radius:4px;border:2px solid #d1d5db;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:transparent;transition:all .15s;}
+.tdm-sub-check.done{background:#22c55e;border-color:#22c55e;}
+.tdm-sub-check.done::after{content:'✓';color:#fff;font-size:8px;font-weight:800;}
+.tdm-sub-text{flex:1;font-size:12.5px;}
+.tdm-sub-text.done{text-decoration:line-through;color:var(--muted);}
+.tdm-sub-del{font-size:11px;color:#94a3b8;background:none;border:none;cursor:pointer;padding:0 4px;line-height:1;}
+.tdm-progress-bg{height:5px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-top:8px;}
+.tdm-progress-fill{height:100%;border-radius:3px;background:var(--current-h);transition:width .3s;}
+.tdm-progress-label{font-size:10px;color:var(--muted);font-weight:600;margin-top:4px;}
+.tdm-sub-add{display:flex;gap:6px;margin-top:8px;}
+.tdm-sub-add input{flex:1;padding:7px 10px;border-radius:8px;border:1.5px dashed var(--border);font-size:12px;color:var(--text);outline:none;background:transparent;transition:border .2s;}
+.tdm-sub-add input:focus{border-color:var(--current-h);background:#fff;}
+[data-dark="1"] .tdm-sub-add input:focus{background:rgba(255,255,255,.08);}
+.tdm-sub-add button{padding:7px 12px;border-radius:8px;background:var(--current-s);color:var(--current-t);font-size:12px;font-weight:700;border:none;cursor:pointer;flex-shrink:0;}
+/* comments in modal */
+.tdm-comment-list{display:flex;flex-direction:column;gap:7px;margin-bottom:10px;}
+.tdm-comment{background:#f8fafc;border-radius:9px;padding:9px 11px;border-left:3px solid var(--current-h);}
+[data-dark="1"] .tdm-comment{background:rgba(255,255,255,0.05);}
+.tdm-comment.vane-comment{border-left-color:#a78bfa;background:#f5f3ff;}
+[data-dark="1"] .tdm-comment.vane-comment{background:rgba(167,139,250,0.1);}
+.tdm-c-meta{display:flex;justify-content:space-between;margin-bottom:3px;}
+.tdm-c-author{font-size:11px;font-weight:800;color:var(--current-h);}
+.tdm-comment.vane-comment .tdm-c-author{color:#7c3aed;}
+.tdm-c-date{font-size:10px;color:var(--muted);}
+.tdm-c-text{font-size:12.5px;line-height:1.5;}
+.tdm-comment-form{display:flex;gap:6px;margin-top:4px;}
+.tdm-comment-form input{flex:1;padding:8px 11px;border-radius:9px;border:1.5px solid var(--border);font-size:12.5px;color:var(--text);outline:none;background:#fff;}
+[data-dark="1"] .tdm-comment-form input{background:rgba(255,255,255,.08);}
+.tdm-comment-form input:focus{border-color:var(--current-h);}
+.tdm-send-btn{padding:8px 14px;border-radius:9px;background:var(--current-h);color:#fff;font-size:12px;font-weight:700;flex-shrink:0;border:none;cursor:pointer;}
+/* vane actions bar in modal */
+.tdm-vane-bar{display:flex;gap:8px;padding:11px 14px;background:#fef9c3;border-radius:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px;}
+.tdm-vane-bar span{font-size:11.5px;font-weight:700;color:#92400e;flex:1;}
+/* footer */
+.tdm-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:7px;flex-wrap:wrap;align-items:center;flex-shrink:0;}
+.tdm-btn{padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:all .15s;}
+.tdm-btn-edit{background:var(--current-s);color:var(--current-t);}
+.tdm-btn-assign{background:#f0f9ff;color:#0369a1;}
+.tdm-btn-del{background:#fee2e2;color:#991b1b;}
+.tdm-estado-sel{padding:7px 10px;border-radius:8px;font-size:12px;font-weight:700;border:1.5px solid var(--border);background:#fff;color:var(--text);cursor:pointer;margin-left:auto;}
+[data-dark="1"] .tdm-estado-sel{background:rgba(255,255,255,.08);color:var(--text);}
 /* DESCRIPTION */
 .task-desc{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.5;white-space:pre-wrap;}
 /* SUBTASKS */
@@ -425,6 +502,19 @@ button{border:none;cursor:pointer;}
     </div>
     <div id="pinSetupHint" class="pin-setup-hint"></div>
     <div><span class="pin-skip" id="pinSkipBtn" onclick="pinSkip()">Configurar PIN después</span></div>
+  </div>
+</div>
+
+<!-- TASK DETAIL MODAL -->
+<div class="task-detail-overlay" id="taskDetailOverlay">
+  <div class="task-detail-modal">
+    <div class="tdm-head">
+      <div class="tdm-check" id="tdmCheck" onclick="tdmToggleDone()"></div>
+      <div class="tdm-title" id="tdmTitle"></div>
+      <button class="tdm-close" onclick="closeTaskDetail()">✕</button>
+    </div>
+    <div class="tdm-body" id="tdmBody"></div>
+    <div class="tdm-footer" id="tdmFooter"></div>
   </div>
 </div>
 
@@ -887,6 +977,7 @@ function subscribeToData() {
       tasks = snap.docs.map(d=>({id:d.id,...d.data()}));
       renderTasks(); updateStats(); renderCalendar(); renderBrandSummary(); checkAlerts();
       checkForNewAssignments();
+      if(detailTaskId) renderTaskDetail();
       setConn('online','En línea · Tiempo real');
     }, ()=>setConn('error','Sin conexión')
   );
@@ -1023,83 +1114,212 @@ function renderTasks() {
     const dl=deadlineState(t.deadline,t.done||t.estado==='publicada');
     const marca=t.marca&&MARCAS_MAP[t.marca];
     const estado=ESTADOS[t.estado||'pendiente'];
+    const subtasks=t.subtasks||[];
+    const subDone=subtasks.filter(s=>s.done).length;
+    const subPct=subtasks.length?Math.round(subDone/subtasks.length*100):0;
+    const unread=isVane()?0:getUnreadCount(t);
+    const totalComments=(t.comments||[]).length;
     const personaInfo=isVane()?PERSONAS.find(p=>p.key===t.persona):null;
-    const comments=(t.comments||[]).map(c=>`
-      <div class="comment-item">
-        <div class="c-meta"><span class="c-author">${esc(c.author)}</span><span class="c-date">${c.date||''}</span></div>
-        <div class="c-text">${esc(c.text)}</div>
-      </div>`).join('');
-    const unread = isVane() ? 0 : getUnreadCount(t);
-    const totalComments = (t.comments||[]).length;
-
-    // Subtasks
-    const subtasks = t.subtasks||[];
-    const subDone = subtasks.filter(s=>s.done).length;
-    const subPct = subtasks.length ? Math.round(subDone/subtasks.length*100) : 0;
-    const subtasksHtml = subtasks.length ? `
-      <div class="subtask-list">
-        ${subtasks.map((s,i)=>`
-          <div class="subtask-item">
-            <div class="subtask-check ${s.done?'done':''}" onclick="toggleSubtask('${t.id}',${i})"></div>
-            <span class="subtask-text ${s.done?'done':''}">${esc(s.text)}</span>
-            ${!isVane()?`<button onclick="deleteSubtask('${t.id}',${i})" style="font-size:10px;color:#94a3b8;background:none;border:none;cursor:pointer;">✕</button>`:''}
-          </div>`).join('')}
-      </div>
-      <div class="subtask-progress"><div class="subtask-progress-bar" style="width:${subPct}%"></div></div>
-      <div style="font-size:10px;color:var(--muted);margin-top:3px;">${subDone}/${subtasks.length} subtareas · ${subPct}%</div>` : '';
 
     return `
-    <div class="task-item pri-${t.priority} ${(t.done||t.estado==='publicada')?'done-yes':''}" id="ti-${t.id}">
-      <div class="task-row">
-        <div class="task-check ${(t.done||t.estado==='publicada')?'checked':''}" onclick="toggleDone('${t.id}',${!!(t.done||t.estado==='publicada')})"></div>
-        <div class="task-info">
-          <div class="task-name">${esc(t.name)}</div>
-          ${t.desc?`<div class="task-desc">${esc(t.desc)}</div>`:''}
-          ${subtasksHtml}
-          ${!isVane()&&!(t.done||t.estado==='publicada')?`
-          <div class="subtask-inline-add">
-            <input placeholder="+ Agregar subtarea..." id="sti-${t.id}" onkeydown="if(event.key==='Enter'){addSubtask('${t.id}');event.preventDefault();}" />
-            <button onclick="addSubtask('${t.id}')">+ Sub</button>
+    <div class="task-item pri-${t.priority} ${(t.done||t.estado==='publicada')?'done-yes':''}" id="ti-${t.id}" onclick="openTaskDetail('${t.id}')">
+      <div class="task-card-top">
+        <div class="task-check ${(t.done||t.estado==='publicada')?'checked':''}" onclick="event.stopPropagation();toggleDone('${t.id}',${!!(t.done||t.estado==='publicada')})"></div>
+        <div class="task-name">${esc(t.name)}</div>
+        <div class="task-card-right">
+          ${subtasks.length?`<div class="task-subtask-mini">
+            <div class="task-mini-bar"><div class="task-mini-fill" style="width:${subPct}%"></div></div>
+            ${subDone}/${subtasks.length}
           </div>`:''}
-          <div class="task-meta">
-            <span class="badge b-${t.priority}">${t.priority}</span>
-            <span class="badge ${estado.cls}">${estado.label}</span>
-            ${marca?`<span class="badge b-marca ${marca.cls}">${marca.label}</span>`:''}
-            ${t.categoria?`<span class="badge b-cat">${t.categoria}</span>`:''}
-            ${t.red?`<span class="badge b-red">${t.red}</span>`:''}
-            ${dl?`<span class="badge ${dl.cls}">${dl.label}</span>`:''}
-            ${personaInfo?`<span class="badge b-asignada">${personaInfo.name} ${personaInfo.emoji}</span>`:''}
-            ${t.link?`<a href="${esc(t.link)}" target="_blank" class="task-link">🔗 Ver link</a>`:''}
-            ${t.assignedTo&&!isVane()?`<span class="badge b-assigned-to">→ ${PERSONAS.find(p=>p.key===t.assignedTo)?.name||t.assignedTo}</span>`:''}
-            ${t.assignedFrom?`<span class="badge b-assigned-from">De: ${PERSONAS.find(p=>p.key===t.assignedFrom)?.name||t.assignedFrom}</span>`:''}
-            ${totalComments?`<span style="font-size:10px;color:var(--muted);cursor:pointer;" onclick="toggleComments('${t.id}')">💬 ${totalComments}${unread>0?`<span class="unread-badge">${unread}</span>`:''}</span>`:''}
+          <div class="task-card-icons">
+            ${totalComments?`<span class="task-card-icon">💬${unread>0?`<span class="unread-badge">${unread}</span>`:''}</span>`:''}
+            ${t.desc?`<span class="task-card-icon">📝</span>`:''}
+            ${t.link?`<span class="task-card-icon">🔗</span>`:''}
           </div>
         </div>
-        <div class="task-btns">
-          ${!isVane()?`<select class="icon-btn" style="width:auto;padding:2px 4px;font-size:10px;border:1px solid var(--border);border-radius:6px;background:#fff;color:var(--text);" onchange="changeEstado('${t.id}',this.value)">
-            ${Object.entries(ESTADOS).map(([k,v])=>`<option value="${k}" ${(t.estado||'pendiente')===k?'selected':''}>${v.label}</option>`).join('')}
-          </select>`:''}
-          ${!isVane()?`<button class="icon-btn" onclick="openEdit('${t.id}')" title="Editar">✏️</button>`:''}
-          ${!isVane()?`<button class="icon-btn" onclick="openAssign('${t.id}')" title="Asignar">👥</button>`:''}
-          <button class="icon-btn" style="position:relative;" onclick="toggleComments('${t.id}')" title="Comentarios">💬${unread>0&&!isVane()?`<span class="unread-badge" style="position:absolute;top:2px;right:2px;pointer-events:none;">${unread}</span>`:''}</button>
-          ${!isVane()?`<button class="icon-btn" onclick="deleteTask('${t.id}')">🗑️</button>`:''}
-        </div>
       </div>
-      ${isVane()&&t.estado==='en-revision'?`<div class="vane-action-bar">
-        <span style="font-size:11px;font-weight:700;color:#b45309;">🟡 Esperando revisión tuya:</span>
-        <button class="approve-btn" onclick="vaneApprove('${t.id}')">✅ Aprobar</button>
-        <button class="reject-btn" onclick="vaneReject('${t.id}')">❌ Rechazar</button>
-      </div>`:''}
-      <div class="comments-panel" id="cp-${t.id}">
-        <div id="cl-${t.id}">${totalComments?comments:'<div style="font-size:11px;color:#94a3b8;margin-bottom:7px;">Sin comentarios aún 🌸</div>'}</div>
-        <div class="comment-form">
-          <input placeholder="Escribí un comentario..." id="ci-${t.id}" onkeydown="if(event.key==='Enter')addComment('${t.id}')" />
-          <button class="comment-btn-send" onclick="addComment('${t.id}')">Enviar ✉️</button>
-        </div>
+      <div class="task-card-meta">
+        <span class="badge b-${t.priority}">${t.priority}</span>
+        <span class="badge ${estado.cls}">${estado.label}</span>
+        ${marca?`<span class="badge b-marca ${marca.cls}">${marca.label}</span>`:''}
+        ${t.red?`<span class="badge b-red">${t.red}</span>`:''}
+        ${dl?`<span class="badge ${dl.cls}">${dl.label}</span>`:''}
+        ${personaInfo?`<span class="badge b-asignada">${personaInfo.name} ${personaInfo.emoji}</span>`:''}
+        ${t.assignedFrom?`<span class="badge b-assigned-from">De: ${PERSONAS.find(p=>p.key===t.assignedFrom)?.name||t.assignedFrom}</span>`:''}
       </div>
     </div>`;
   }).join('');
 }
+
+// ── TASK DETAIL MODAL ─────────────────────────────────────
+let detailTaskId = null;
+
+window.openTaskDetail = (id) => {
+  detailTaskId = id;
+  renderTaskDetail();
+  document.getElementById('taskDetailOverlay').classList.add('open');
+};
+
+window.closeTaskDetail = () => {
+  document.getElementById('taskDetailOverlay').classList.remove('open');
+  detailTaskId = null;
+};
+
+document.getElementById('taskDetailOverlay').addEventListener('click', e => {
+  if(e.target === e.currentTarget) closeTaskDetail();
+});
+
+function renderTaskDetail() {
+  const t = tasks.find(t=>t.id===detailTaskId); if(!t) return;
+  const dl = deadlineState(t.deadline, t.done||t.estado==='publicada');
+  const marca = t.marca&&MARCAS_MAP[t.marca];
+  const estado = ESTADOS[t.estado||'pendiente'];
+  const subtasks = t.subtasks||[];
+  const subDone = subtasks.filter(s=>s.done).length;
+  const subPct = subtasks.length ? Math.round(subDone/subtasks.length*100) : 0;
+  const comments = t.comments||[];
+  const unread = isVane()?0:getUnreadCount(t);
+
+  // Mark as read
+  if(!isVane()&&unread>0){
+    const vaneCount=comments.filter(c=>c.author&&c.author.includes('Vane')).length;
+    markCommentsRead(t.id, vaneCount);
+    renderTasks();
+  }
+
+  // Head check
+  const chk = document.getElementById('tdmCheck');
+  const isDone = t.done||t.estado==='publicada';
+  chk.className = `tdm-check${isDone?' checked':''}`;
+  document.getElementById('tdmTitle').textContent = t.name;
+
+  // Body
+  const body = document.getElementById('tdmBody');
+
+  // Vane approve/reject bar
+  const vaneBar = isVane()&&t.estado==='en-revision' ? `
+    <div class="tdm-vane-bar">
+      <span>🟡 En revisión</span>
+      <button class="approve-btn" onclick="vaneApprove('${t.id}');closeTaskDetail()">✅ Aprobar</button>
+      <button class="reject-btn" onclick="vaneReject('${t.id}');closeTaskDetail()">❌ Rechazar</button>
+    </div>` : '';
+
+  // Badges
+  const badges = `
+    <div class="tdm-badges">
+      <span class="badge b-${t.priority}">${t.priority}</span>
+      <span class="badge ${estado.cls}">${estado.label}</span>
+      ${marca?`<span class="badge b-marca ${marca.cls}">${marca.label}</span>`:''}
+      ${t.categoria?`<span class="badge b-cat">${t.categoria}</span>`:''}
+      ${t.red?`<span class="badge b-red">${t.red}</span>`:''}
+      ${dl?`<span class="badge ${dl.cls}">${dl.label}</span>`:''}
+      ${t.assignedFrom?`<span class="badge b-assigned-from">De: ${PERSONAS.find(p=>p.key===t.assignedFrom)?.name||t.assignedFrom}</span>`:''}
+      ${t.link?`<a href="${esc(t.link)}" target="_blank" class="task-link" onclick="event.stopPropagation()">🔗 Ver link</a>`:''}
+    </div>`;
+
+  // Description
+  const descSection = `
+    <div class="tdm-section">
+      <div class="tdm-label">📝 Descripción</div>
+      ${t.desc ? `<div class="tdm-desc-box">${esc(t.desc)}</div>` : `<div class="tdm-desc-empty">Sin descripción — editá la tarea para agregar.</div>`}
+    </div>`;
+
+  // Subtasks
+  const subItems = subtasks.map((s,i)=>`
+    <div class="tdm-sub-item">
+      <div class="tdm-sub-check ${s.done?'done':''}" onclick="toggleSubtask('${t.id}',${i});renderTaskDetail()"></div>
+      <span class="tdm-sub-text ${s.done?'done':''}">${esc(s.text)}</span>
+      ${!isVane()?`<button class="tdm-sub-del" onclick="deleteSubtask('${t.id}',${i});renderTaskDetail()">✕</button>`:''}
+    </div>`).join('');
+
+  const subSection = `
+    <div class="tdm-section">
+      <div class="tdm-label">☑️ Subtareas ${subtasks.length?`<span style="font-weight:400;color:var(--muted)">${subDone}/${subtasks.length}</span>`:''}
+      </div>
+      ${subtasks.length?`
+        <div class="tdm-sub-list">${subItems}</div>
+        <div class="tdm-progress-bg"><div class="tdm-progress-fill" style="width:${subPct}%"></div></div>
+        <div class="tdm-progress-label">${subPct}% completado</div>
+      `:'<div class="tdm-desc-empty">Sin subtareas aún.</div>'}
+      ${!isVane()?`<div class="tdm-sub-add">
+        <input placeholder="+ Nueva subtarea..." id="tdmSubInput" onkeydown="if(event.key==='Enter'){tdmAddSubtask();event.preventDefault();}" />
+        <button onclick="tdmAddSubtask()">+ Agregar</button>
+      </div>`:''}
+    </div>`;
+
+  // Comments
+  const commentItems = comments.length ? comments.map(c=>`
+    <div class="tdm-comment ${c.author&&c.author.includes('Vane')?'vane-comment':''}">
+      <div class="tdm-c-meta">
+        <span class="tdm-c-author">${esc(c.author)}</span>
+        <span class="tdm-c-date">${c.date||''}</span>
+      </div>
+      <div class="tdm-c-text">${esc(c.text)}</div>
+    </div>`).join('') : '<div class="tdm-desc-empty">Sin comentarios aún. 🌸</div>';
+
+  const commentsSection = `
+    <div class="tdm-section">
+      <div class="tdm-label">💬 Comentarios ${comments.length?`(${comments.length})`:''}${unread>0?`<span class="unread-badge">${unread}</span>`:''}
+      </div>
+      <div class="tdm-comment-list">${commentItems}</div>
+      <div class="tdm-comment-form">
+        <input placeholder="Escribí un comentario..." id="tdmCommentInput" onkeydown="if(event.key==='Enter')tdmAddComment()" />
+        <button class="tdm-send-btn" onclick="tdmAddComment()">Enviar</button>
+      </div>
+    </div>`;
+
+  body.innerHTML = vaneBar + badges + descSection + subSection + commentsSection;
+
+  // Footer
+  const footer = document.getElementById('tdmFooter');
+  if(isVane()){
+    footer.innerHTML = '';
+  } else {
+    footer.innerHTML = `
+      <button class="tdm-btn tdm-btn-edit" onclick="closeTaskDetail();openEdit('${t.id}')">✏️ Editar</button>
+      <button class="tdm-btn tdm-btn-assign" onclick="closeTaskDetail();openAssign('${t.id}')">👥 Asignar</button>
+      <button class="tdm-btn tdm-btn-del" onclick="closeTaskDetail();deleteTask('${t.id}')">🗑️ Eliminar</button>
+      <select class="tdm-estado-sel" onchange="changeEstado('${t.id}',this.value);renderTaskDetail()">
+        ${Object.entries(ESTADOS).map(([k,v])=>`<option value="${k}" ${(t.estado||'pendiente')===k?'selected':''}>${v.label}</option>`).join('')}
+      </select>`;
+  }
+}
+
+window.tdmToggleDone = () => {
+  const t = tasks.find(t=>t.id===detailTaskId); if(!t) return;
+  const isDone = t.done||t.estado==='publicada';
+  toggleDone(detailTaskId, isDone);
+};
+
+window.tdmAddSubtask = async () => {
+  const input = document.getElementById('tdmSubInput');
+  if(!input) return;
+  const text = input.value.trim(); if(!text) return;
+  const task = tasks.find(t=>t.id===detailTaskId); if(!task) return;
+  const subtasks = [...(task.subtasks||[]), {text, done:false}];
+  await updateDoc(doc(db,'tasks',detailTaskId),{subtasks});
+  input.value='';
+};
+
+window.tdmAddComment = async () => {
+  const input = document.getElementById('tdmCommentInput');
+  if(!input) return;
+  const text = input.value.trim(); if(!text) return;
+  const task = tasks.find(t=>t.id===detailTaskId); if(!task) return;
+  const comments = [...(task.comments||[])];
+  const authorName = isVane()?'Vane 👑':PERSONAS[currentP].name;
+  comments.push({author:authorName, text, date:new Date().toLocaleDateString('es-AR',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})});
+  await updateDoc(doc(db,'tasks',detailTaskId),{comments});
+  input.value='';
+  if(isVane()&&task.persona){
+    addNotif(task.persona,{
+      id:`comment-${detailTaskId}-${Date.now()}`,
+      emoji:'💬',
+      text:`Vane comentó en "${task.name}": "${text.slice(0,40)}${text.length>40?'…':''}"`,
+      taskId:detailTaskId
+    });
+  }
+};
 
 function renderVaneOverview() {
   const grid=document.getElementById('vaneGrid');
