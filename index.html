@@ -1083,6 +1083,7 @@ function deadlineState(dl, done) {
   return{label:fmtDate(dl),cls:'b-ok'};
 }
 function fmtDate(s){if(!s)return'';const d=new Date(s+'T00:00:00');return d.toLocaleDateString('es-AR',{day:'2-digit',month:'short'});}
+function subtaskProgress(t){const s=t.subtasks||[];if(!s.length)return'—';const d=s.filter(x=>x.done).length;return`${d}/${s.length}`;}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 // ── RENDER TASKS ──────────────────────────────────────────
@@ -1709,12 +1710,12 @@ window.downloadPDF = (onlySelected) => {
 
       pdf.autoTable({
         startY:36,
-        head:[['Tarea','Marca','Estado','Deadline']],
-        body:pt.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—']),
+        head:[['Tarea','Marca','Estado','Deadline','Progreso']],
+        body:pt.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—',subtaskProgress(t)]),
         headStyles:{fillColor:pc,textColor:[255,255,255],fontStyle:'bold',fontSize:8},
         bodyStyles:{fontSize:7.5,textColor:DARK},
         alternateRowStyles:{fillColor:[249,250,251]},
-        columnStyles:{0:{cellWidth:90},1:{cellWidth:35},2:{cellWidth:35},3:{cellWidth:25,halign:'center'}},
+        columnStyles:{0:{cellWidth:75},1:{cellWidth:28},2:{cellWidth:28},3:{cellWidth:22,halign:'center'},4:{cellWidth:22,halign:'center'}},
         margin:{left:14,right:14}
       });
     });
@@ -1735,16 +1736,37 @@ window.downloadPDF = (onlySelected) => {
 
     pdf.autoTable({
       startY:y,
-      head:[['Tarea','Marca','Estado','Deadline','Prioridad']],
-      body:list.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—',t.priority]),
+      head:[['Tarea','Marca','Estado','Deadline','Prioridad','Progreso']],
+      body:list.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—',t.priority,subtaskProgress(t)]),
       headStyles:{fillColor:hColor,textColor:[255,255,255],fontStyle:'bold',fontSize:8},
       bodyStyles:{fontSize:7.5,textColor:DARK},
       alternateRowStyles:{fillColor:[249,250,251]},
-      columnStyles:{0:{cellWidth:65},1:{cellWidth:28},2:{cellWidth:28},3:{cellWidth:22,halign:'center'},4:{cellWidth:22,halign:'center'}},
+      columnStyles:{0:{cellWidth:55},1:{cellWidth:24},2:{cellWidth:24},3:{cellWidth:20,halign:'center'},4:{cellWidth:20,halign:'center'},5:{cellWidth:20,halign:'center'}},
       margin:{left:14,right:14}
     });
 
     y=pdf.lastAutoTable.finalY+12;
+    const withSub=list.filter(t=>(t.subtasks||[]).length>0);
+    if(withSub.length){
+      pdf.setFontSize(11);pdf.setFont('helvetica','bold');pdf.setTextColor(...hColor);
+      pdf.text('Detalle de subtareas / checklist',14,y);y+=8;
+      withSub.forEach(t=>{
+        if(y>265){pdf.addPage();y=20;}
+        const subs=t.subtasks||[];
+        const done=subs.filter(s=>s.done).length;
+        pdf.setFontSize(10);pdf.setFont('helvetica','bold');pdf.setTextColor(...hColor);
+        pdf.text(`• ${t.name}  (${done}/${subs.length})`,14,y);y+=5;
+        subs.forEach(s=>{
+          if(y>276){pdf.addPage();y=20;}
+          pdf.setFont('helvetica','normal');pdf.setFontSize(8.5);
+          pdf.setTextColor(...(s.done?[22,163,74]:DARK));
+          const mark=s.done?'[x]':'[ ]';
+          pdf.splitTextToSize(`  ${mark} ${s.text}`,170).forEach(l=>{if(y>278){pdf.addPage();y=20;}pdf.text(l,16,y);y+=4;});
+        });
+        y+=3;
+      });
+    }
+
     const withC=list.filter(t=>t.comments&&t.comments.length>0);
     if(withC.length){
       pdf.setFontSize(11);pdf.setFont('helvetica','bold');pdf.setTextColor(...hColor);
