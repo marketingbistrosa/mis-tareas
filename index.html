@@ -166,6 +166,19 @@ button{border:none;cursor:pointer;}
 .task-check:hover{border-color:var(--current-h);}
 .task-check.checked{background:#22c55e;border-color:#22c55e;}
 .task-check.checked::after{content:'✓';color:#fff;font-size:10px;font-weight:800;}
+.select-check{width:18px;height:18px;border-radius:5px;border:2px solid #93c5fd;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;transition:all .15s;background:#fff;z-index:2;position:relative;}
+.select-check:hover{border-color:#3b82f6;}
+.select-check.checked{background:#3b82f6;border-color:#3b82f6;}
+.select-check.checked::after{content:'✓';color:#fff;font-size:10px;font-weight:800;}
+.task-item.select-active{border-color:#93c5fd;background:rgba(59,130,246,0.05);}
+[data-dark="1"] .task-item.select-active{background:rgba(59,130,246,0.1);}
+.selection-bar{display:none;align-items:center;justify-content:space-between;gap:8px;background:rgba(59,130,246,0.08);border:1.5px solid rgba(59,130,246,0.25);border-radius:var(--radius-sm);padding:9px 13px;margin-bottom:11px;font-size:12px;font-weight:700;color:#1d4ed8;flex-wrap:wrap;}
+.selection-bar.show{display:flex;}
+[data-dark="1"] .selection-bar{background:rgba(59,130,246,0.12);color:#93c5fd;}
+.selection-bar-actions{display:flex;gap:6px;flex-wrap:wrap;}
+.selection-bar-actions button{padding:5px 11px;border-radius:999px;font-size:11px;font-weight:700;background:#fff;color:#1d4ed8;border:1.5px solid rgba(59,130,246,0.3);cursor:pointer;transition:all .15s;}
+.selection-bar-actions button:hover{background:#eff6ff;}
+[data-dark="1"] .selection-bar-actions button{background:rgba(255,255,255,0.1);color:#93c5fd;}
 .task-name{font-size:13px;font-weight:700;line-height:1.3;flex:1;}
 .task-card-meta{display:flex;gap:4px;margin-top:7px;margin-left:27px;flex-wrap:wrap;align-items:center;}
 .task-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;margin-left:6px;}
@@ -773,12 +786,23 @@ button{border:none;cursor:pointer;}
           <!-- MARCA FILTER -->
           <div class="brand-filter-panel" id="brandFilterPanel"></div>
 
+          <!-- SELECTION BAR -->
+          <div class="selection-bar" id="selectionBar">
+            <span id="selectionCount">0 seleccionadas</span>
+            <div class="selection-bar-actions">
+              <button onclick="selectAllFiltered()">☑️ Seleccionar filtradas</button>
+              <button onclick="clearSelection()">Limpiar</button>
+            </div>
+          </div>
+
           <div class="task-list" id="taskList">
             <div class="loading"><div class="spinner"></div> Cargando...</div>
           </div>
 
           <div class="actions-bar">
-            <button class="action-btn primary" onclick="downloadPDF()">⬇️ Descargar PDF</button>
+            <button class="action-btn" id="selectModeBtn" onclick="toggleSelectMode()">☑️ Seleccionar tareas</button>
+            <button class="action-btn primary" onclick="downloadPDF()">⬇️ Descargar PDF (todas)</button>
+            <button class="action-btn primary" id="downloadSelBtn" style="display:none;background:#3b82f6;" onclick="downloadPDF(true)">⬇️ Descargar selección</button>
           </div>
         </div>
       </div>
@@ -856,6 +880,7 @@ const ESTADOS = {
 let currentP = 0, tasks=[], allTasks={}, milestones=[], allMilestones={};
 let currentFilter='todas', currentSort='fecha', currentMarcaFilter='';
 let vanePersonaFilter='';
+let selectMode=false, selectedIds=new Set();
 let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
 let unsubTasks=null, unsubMilestones=null, unsubAll=[];
 let editingId=null;
@@ -924,6 +949,10 @@ window.switchPersona = (idx) => {
   }
 
   currentFilter='todas'; currentSort='fecha'; currentMarcaFilter=''; vanePersonaFilter='';
+  selectMode=false; selectedIds=new Set();
+  document.getElementById('selectionBar').classList.remove('show');
+  document.getElementById('downloadSelBtn').style.display='none';
+  document.getElementById('selectModeBtn').textContent='☑️ Seleccionar tareas';
   document.querySelectorAll('.filter-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
   document.querySelectorAll('.sort-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
 
@@ -1122,9 +1151,10 @@ function renderTasks() {
     const personaInfo=isVane()?PERSONAS.find(p=>p.key===t.persona):null;
 
     return `
-    <div class="task-item pri-${t.priority} ${(t.done||t.estado==='publicada')?'done-yes':''}" id="ti-${t.id}" onclick="openTaskDetail('${t.id}')">
+    <div class="task-item pri-${t.priority} ${(t.done||t.estado==='publicada')?'done-yes':''} ${selectMode&&selectedIds.has(t.id)?'select-active':''}" id="ti-${t.id}" onclick="${selectMode?`toggleSelectTask('${t.id}')`:`openTaskDetail('${t.id}')`}">
       <div class="task-card-top">
-        <div class="task-check ${(t.done||t.estado==='publicada')?'checked':''}" onclick="event.stopPropagation();toggleDone('${t.id}',${!!(t.done||t.estado==='publicada')})"></div>
+        ${selectMode?`<div class="select-check ${selectedIds.has(t.id)?'checked':''}" onclick="event.stopPropagation();toggleSelectTask('${t.id}')"></div>`:''}
+        <div class="task-check ${(t.done||t.estado==='publicada')?'checked':''}" onclick="event.stopPropagation();${selectMode?`toggleSelectTask('${t.id}')`:`toggleDone('${t.id}',${!!(t.done||t.estado==='publicada')})`}"></div>
         <div class="task-name">${esc(t.name)}</div>
         <div class="task-card-right">
           ${subtasks.length?`<div class="task-subtask-mini">
@@ -1605,25 +1635,73 @@ window.toggleMoreOptions = () => {
   t.textContent=open?'－ Menos opciones':'＋ Más opciones';
 };
 
+// ── SELECCIÓN DE TAREAS PARA PDF ─────────────────────────
+function updateSelectionUI(){
+  const bar=document.getElementById('selectionBar');
+  const countEl=document.getElementById('selectionCount');
+  const dlBtn=document.getElementById('downloadSelBtn');
+  if(selectMode){
+    bar.classList.add('show');
+    countEl.textContent=`${selectedIds.size} seleccionada${selectedIds.size===1?'':'s'}`;
+    dlBtn.style.display = selectedIds.size>0 ? 'flex' : 'none';
+    dlBtn.textContent = `⬇️ Descargar selección (${selectedIds.size})`;
+  } else {
+    bar.classList.remove('show');
+    dlBtn.style.display='none';
+  }
+}
+
+window.toggleSelectMode = () => {
+  selectMode=!selectMode;
+  document.getElementById('selectModeBtn').textContent = selectMode ? '✕ Salir de selección' : '☑️ Seleccionar tareas';
+  document.getElementById('selectModeBtn').classList.toggle('primary', selectMode);
+  if(!selectMode) selectedIds=new Set();
+  updateSelectionUI();
+  renderTasks();
+};
+
+window.toggleSelectTask = (id) => {
+  if(selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id);
+  updateSelectionUI();
+  renderTasks();
+};
+
+window.selectAllFiltered = () => {
+  getFiltered().forEach(t=>selectedIds.add(t.id));
+  updateSelectionUI();
+  renderTasks();
+};
+
+window.clearSelection = () => {
+  selectedIds=new Set();
+  updateSelectionUI();
+  renderTasks();
+};
+
 // ── PDF ───────────────────────────────────────────────────
-window.downloadPDF = () => {
+window.downloadPDF = (onlySelected) => {
+  if(onlySelected && selectedIds.size===0){ alert('No seleccionaste ninguna tarea todavía.'); return; }
   const p=isVane()?PERSONAS[4]:PERSONAS[currentP];
   const {jsPDF}=window.jspdf;
   const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
   const hColor=p.h.match(/\w\w/g).map(x=>parseInt(x,16));
   const DARK=[26,26,46],GRAY=[100,116,139];
   const today=new Date();today.setHours(0,0,0,0);
+  const filt = arr => onlySelected ? arr.filter(t=>selectedIds.has(t.id)) : arr;
 
   if(isVane()){
     // PDF separado por persona
-    PERSONAS.slice(0,4).forEach((persona,idx)=>{
+    const personasConTareas = onlySelected
+      ? PERSONAS.slice(0,4).filter(persona=>filt(allTasks[persona.key]||[]).length>0)
+      : PERSONAS.slice(0,4);
+    personasConTareas.forEach((persona,idx)=>{
       if(idx>0)pdf.addPage();
-      const pt=allTasks[persona.key]||[];
+      const pt=filt(allTasks[persona.key]||[]);
       const pc=persona.h.match(/\w\w/g).map(x=>parseInt(x,16));
       pdf.setFillColor(...pc);pdf.rect(0,0,210,30,'F');
       pdf.setTextColor(255,255,255);
       pdf.setFontSize(16);pdf.setFont('helvetica','bold');
-      pdf.text(`${persona.name} ${persona.emoji} — ${persona.role}`,14,13);
+      pdf.text(`${persona.name} ${persona.emoji} — ${persona.role}${onlySelected?' (Selección)':''}`,14,13);
       pdf.setFontSize(8);pdf.setFont('helvetica','normal');
       pdf.text(`Total: ${pt.length} | Listas: ${pt.filter(t=>t.done).length} | Pendientes: ${pt.filter(t=>!t.done).length}`,14,24);
       const over=pt.filter(t=>!t.done&&t.deadline&&new Date(t.deadline+'T00:00:00')<today).length;
@@ -1641,23 +1719,24 @@ window.downloadPDF = () => {
       });
     });
   } else {
+    const list=filt(tasks);
     pdf.setFillColor(...hColor);pdf.rect(0,0,210,34,'F');
     pdf.setTextColor(255,255,255);
     pdf.setFontSize(18);pdf.setFont('helvetica','bold');
-    pdf.text(`TaskFlow — Reporte de ${p.name} ${p.emoji}`,14,15);
+    pdf.text(`TaskFlow — Reporte de ${p.name} ${p.emoji}${onlySelected?' (Selección)':''}`,14,15);
     pdf.setFontSize(8);pdf.setFont('helvetica','normal');
     pdf.text(`Generado el ${new Date().toLocaleDateString('es-AR',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`,14,26);
 
     let y=44;
-    const total=tasks.length,done=tasks.filter(t=>t.done).length;
-    const over=tasks.filter(t=>!t.done&&t.deadline&&new Date(t.deadline+'T00:00:00')<today).length;
+    const total=list.length,done=list.filter(t=>t.done).length;
+    const over=list.filter(t=>!t.done&&t.deadline&&new Date(t.deadline+'T00:00:00')<today).length;
     pdf.setFontSize(9);pdf.setFont('helvetica','normal');pdf.setTextColor(...DARK);
     pdf.text(`Total: ${total}  |  Listas: ${done}  |  Pendientes: ${total-done}  |  Vencidas: ${over}`,14,y);y+=10;
 
     pdf.autoTable({
       startY:y,
       head:[['Tarea','Marca','Estado','Deadline','Prioridad']],
-      body:tasks.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—',t.priority]),
+      body:list.map(t=>[t.name,t.marca?(MARCAS_MAP[t.marca]?.label||'—'):'—',ESTADOS[t.estado||'pendiente']?.label||'—',t.deadline?fmtDate(t.deadline):'—',t.priority]),
       headStyles:{fillColor:hColor,textColor:[255,255,255],fontStyle:'bold',fontSize:8},
       bodyStyles:{fontSize:7.5,textColor:DARK},
       alternateRowStyles:{fillColor:[249,250,251]},
@@ -1666,7 +1745,7 @@ window.downloadPDF = () => {
     });
 
     y=pdf.lastAutoTable.finalY+12;
-    const withC=tasks.filter(t=>t.comments&&t.comments.length>0);
+    const withC=list.filter(t=>t.comments&&t.comments.length>0);
     if(withC.length){
       pdf.setFontSize(11);pdf.setFont('helvetica','bold');pdf.setTextColor(...hColor);
       pdf.text('Comentarios y feedback',14,y);y+=8;
@@ -1691,7 +1770,7 @@ window.downloadPDF = () => {
     pdf.setPage(i);pdf.setFontSize(8);pdf.setTextColor(...GRAY);
     pdf.text(`Página ${i} de ${pages} — TaskFlow · Equipo MKT Bistrosa`,105,292,{align:'center'});
   }
-  pdf.save(`reporte-${isVane()?'general-vane':p.key}-${new Date().toISOString().slice(0,10)}.pdf`);
+  pdf.save(`reporte-${onlySelected?'seleccion-':''}${isVane()?'general-vane':p.key}-${new Date().toISOString().slice(0,10)}.pdf`);
 };
 
 // ── PIN SYSTEM ────────────────────────────────────────────
